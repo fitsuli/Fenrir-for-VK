@@ -1534,14 +1534,12 @@ public class Utils {
                     }
                     Handler uiHandler = new Handler(context.getMainLooper());
                     String finalResult = result;
-                    uiHandler.post(() -> {
-                        MaterialAlertDialogBuilder dlgAlert = new MaterialAlertDialogBuilder(context);
-                        dlgAlert.setIcon(R.drawable.dir_person);
-                        dlgAlert.setMessage(finalResult);
-                        dlgAlert.setTitle(context.getString(R.string.registration_date));
-                        dlgAlert.setCancelable(true);
-                        dlgAlert.create().show();
-                    });
+                    uiHandler.post(() -> new MaterialAlertDialogBuilder(context)
+                            .setIcon(R.drawable.dir_person)
+                            .setMessage(finalResult)
+                            .setTitle(context.getString(R.string.registration_date))
+                            .setCancelable(true)
+                            .show());
                 }
             }
         });

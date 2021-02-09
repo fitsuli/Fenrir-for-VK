@@ -305,7 +305,7 @@ public class AudiosPresenter extends AccountDependencyPresenter<IAudiosView> {
         ((TextInputEditText) root.findViewById(R.id.edit_artist)).setText(audio.getArtist());
         ((TextInputEditText) root.findViewById(R.id.edit_title)).setText(audio.getTitle());
         ((TextInputEditText) root.findViewById(R.id.edit_lyrics)).setText(lyrics);
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context)
+        new MaterialAlertDialogBuilder(context)
                 .setTitle(R.string.enter_audio_info)
                 .setCancelable(true)
                 .setView(root)
@@ -313,8 +313,8 @@ public class AudiosPresenter extends AccountDependencyPresenter<IAudiosView> {
                         ((TextInputEditText) root.findViewById(R.id.edit_artist)).getText().toString(), ((TextInputEditText) root.findViewById(R.id.edit_title)).getText().toString(),
                         ((TextInputEditText) root.findViewById(R.id.edit_lyrics)).getText().toString()).compose(RxUtils.applyCompletableIOToMainSchedulers())
                         .subscribe(this::fireRefresh, t -> showError(getView(), getCauseIfRuntime(t)))))
-                .setNegativeButton(R.string.button_cancel, null);
-        builder.create().show();
+                .setNegativeButton(R.string.button_cancel, null)
+                .show();
     }
 
     private void tempSwap(int fromPosition, int toPosition) {

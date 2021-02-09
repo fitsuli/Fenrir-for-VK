@@ -296,7 +296,7 @@ public class MessageAttachmentsPresenter extends RxSupportPresenter<IMessageAtta
                         doUploadFile(file, size, false);
                     }
                 })
-                .create().show();
+                .show();
     }
 
     private void doUploadPhotos(List<LocalPhoto> photos) {

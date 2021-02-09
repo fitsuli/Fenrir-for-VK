@@ -127,7 +127,6 @@ public class CheckDonate {
 
     public static boolean isFullVersion(Context context) {
         if (!Constants.IS_DONATE && !Utils.isValueAssigned(Settings.get().accounts().getCurrent(), donatedUsers) && !Utils.isValueAssigned(Settings.get().accounts().getCurrent(), Utils.donate_users)) {
-            MaterialAlertDialogBuilder dlgAlert = new MaterialAlertDialogBuilder(context);
 
             View view = LayoutInflater.from(context).inflate(R.layout.donate_alert, null);
             view.findViewById(R.id.item_donate).setOnClickListener(v -> LinkHelper.openLinkInBrowser(context, "https://play.google.com/store/apps/details?id=dev.ragnarok.fenrir_full"));
@@ -136,11 +135,12 @@ public class CheckDonate {
             anim.setAnimation(R.raw.google_store, Utils.dp(200), Utils.dp(200));
             anim.playAnimation();
 
-            dlgAlert.setTitle(R.string.info);
-            dlgAlert.setIcon(R.drawable.client_round);
-            dlgAlert.setCancelable(true);
-            dlgAlert.setView(view);
-            dlgAlert.show();
+            new MaterialAlertDialogBuilder(context)
+                    .setTitle(R.string.info)
+                    .setIcon(R.drawable.client_round)
+                    .setCancelable(true)
+                    .setView(view)
+                    .show();
             return false;
         }
         return true;
@@ -159,7 +159,6 @@ public class CheckDonate {
                         Utils.donate_users.addAll(t.donates);
                         Settings.get().other().registerDonatesId(Utils.donate_users);
                     }
-                    MaterialAlertDialogBuilder dlgAlert = new MaterialAlertDialogBuilder(context);
                     boolean isDon = Utils.isValueAssigned(account_id, donatedUsers) || Utils.isValueAssigned(account_id, Utils.donate_users);
                     View view = LayoutInflater.from(context).inflate(R.layout.is_donate_alert, null);
                     ((TextView) view.findViewById(R.id.item_status)).setText(isDon ? R.string.button_yes : R.string.button_no);
@@ -168,11 +167,12 @@ public class CheckDonate {
                     anim.setAnimation(isDon ? R.raw.is_donated : R.raw.is_not_donated, Utils.dp(200), Utils.dp(200));
                     anim.playAnimation();
 
-                    dlgAlert.setTitle(R.string.info);
-                    dlgAlert.setIcon(R.drawable.client_round);
-                    dlgAlert.setCancelable(true);
-                    dlgAlert.setView(view);
-                    dlgAlert.show();
+                    new MaterialAlertDialogBuilder(context)
+                            .setTitle(R.string.info)
+                            .setIcon(R.drawable.client_round)
+                            .setCancelable(true)
+                            .setView(view)
+                            .show();
                 }, e -> Utils.showErrorInAdapter(context, e));
     }
 

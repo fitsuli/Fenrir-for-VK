@@ -435,19 +435,19 @@ public class PhotoPagerPresenter extends AccountDependencyPresenter<IPhotoPagerV
                     @Override
                     public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                         String data = IntentIntegrator.decodeFromBitmap(bitmap);
-                        MaterialAlertDialogBuilder dlgAlert = new MaterialAlertDialogBuilder(context);
-                        dlgAlert.setIcon(R.drawable.qr_code);
-                        dlgAlert.setMessage(data);
-                        dlgAlert.setTitle(getString(R.string.scan_qr));
-                        dlgAlert.setPositiveButton(R.string.open, (dialog, which) -> LinkHelper.openUrl(context, getAccountId(), data));
-                        dlgAlert.setNeutralButton(R.string.copy_text, (dialog, which) -> {
-                            ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-                            ClipData clip = ClipData.newPlainText("response", data);
-                            clipboard.setPrimaryClip(clip);
-                            CustomToast.CreateCustomToast(context).showToast(R.string.copied_to_clipboard);
-                        });
-                        dlgAlert.setCancelable(true);
-                        dlgAlert.create().show();
+                        new MaterialAlertDialogBuilder(context)
+                                .setIcon(R.drawable.qr_code)
+                                .setMessage(data)
+                                .setTitle(getString(R.string.scan_qr))
+                                .setPositiveButton(R.string.open, (dialog, which) -> LinkHelper.openUrl(context, getAccountId(), data))
+                                .setNeutralButton(R.string.copy_text, (dialog, which) -> {
+                                    ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+                                    ClipData clip = ClipData.newPlainText("response", data);
+                                    clipboard.setPrimaryClip(clip);
+                                    CustomToast.CreateCustomToast(context).showToast(R.string.copied_to_clipboard);
+                                })
+                                .setCancelable(true)
+                                .show();
                     }
 
                     @Override
