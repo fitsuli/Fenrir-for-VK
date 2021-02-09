@@ -13,6 +13,8 @@ import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -242,7 +244,7 @@ class PhotoPagerFragment : BaseMvpFragment<PhotoPagerPresenter, IPhotoPagerView>
             })
             mPreviewsRecycler?.adapter = mAdapterRecycler
         } else {
-            mPreviewsRecycler?.visibility = View.GONE
+            mPreviewsRecycler?.isVisible = false
         }
 
         return root
@@ -394,7 +396,7 @@ class PhotoPagerFragment : BaseMvpFragment<PhotoPagerPresenter, IPhotoPagerView>
 
     override fun setupLikeButton(visible: Boolean, like: Boolean, likes: Int) {
         if (Objects.nonNull(mButtonLike)) {
-            mButtonLike!!.visibility = if (visible) View.VISIBLE else View.GONE
+            mButtonLike!!.isVisible = visible
             mButtonLike!!.isActive = like
             mButtonLike!!.count = likes
             mButtonLike!!.setIcon(if (like) R.drawable.heart_filled else R.drawable.heart)
@@ -403,20 +405,20 @@ class PhotoPagerFragment : BaseMvpFragment<PhotoPagerPresenter, IPhotoPagerView>
 
     override fun setupWithUserButton(users: Int) {
         if (Objects.nonNull(mButtonWithUser)) {
-            mButtonWithUser!!.visibility = if (users > 0) View.VISIBLE else View.GONE
+            mButtonWithUser!!.isVisible = users > 0
             mButtonWithUser!!.count = users
         }
     }
 
     override fun setupShareButton(visible: Boolean) {
         if (Objects.nonNull(buttonShare)) {
-            buttonShare!!.visibility = if (visible) View.VISIBLE else View.GONE
+            buttonShare!!.isVisible = visible
         }
     }
 
     override fun setupCommentsButton(visible: Boolean, count: Int) {
         if (Objects.nonNull(mButtonComments)) {
-            mButtonComments!!.visibility = if (visible) View.VISIBLE else View.GONE
+            mButtonComments!!.isVisible = visible
             mButtonComments!!.count = count
         }
     }
@@ -492,7 +494,7 @@ class PhotoPagerFragment : BaseMvpFragment<PhotoPagerPresenter, IPhotoPagerView>
 
     override fun setButtonRestoreVisible(visible: Boolean) {
         if (Objects.nonNull(mButtonRestore)) {
-            mButtonRestore!!.visibility = if (visible) View.VISIBLE else View.GONE
+            mButtonRestore!!.isVisible = visible
         }
     }
 
@@ -507,7 +509,7 @@ class PhotoPagerFragment : BaseMvpFragment<PhotoPagerPresenter, IPhotoPagerView>
     }
 
     override fun displayPhotoListLoading(loading: Boolean) {
-        mLoadingProgressBar?.visibility = if (loading) View.VISIBLE else View.GONE
+        mLoadingProgressBar?.isVisible = loading
         if (loading) {
             mLoadingProgressBar?.setAnimation(
                 R.raw.loading,
@@ -527,13 +529,13 @@ class PhotoPagerFragment : BaseMvpFragment<PhotoPagerPresenter, IPhotoPagerView>
     }
 
     override fun setButtonsBarVisible(visible: Boolean) {
-        mButtonsRoot?.visibility = if (visible) View.VISIBLE else View.GONE
-        mPreviewsRecycler?.visibility = if (visible && bShowPhotosLine) View.VISIBLE else View.GONE
+        mButtonsRoot?.isVisible = visible
+        mPreviewsRecycler?.isVisible = visible && bShowPhotosLine
     }
 
     override fun setToolbarVisible(visible: Boolean) {
         if (Objects.nonNull(mToolbar)) {
-            mToolbar!!.visibility = if (visible) View.VISIBLE else View.GONE
+            mToolbar!!.isVisible = visible
         }
     }
 
@@ -592,7 +594,7 @@ class PhotoPagerFragment : BaseMvpFragment<PhotoPagerPresenter, IPhotoPagerView>
             val size: Int = photoSizeFromPrefs
             val url = photo_image.getUrlForSize(size, true)
             reload.setOnClickListener {
-                reload.visibility = View.INVISIBLE
+                reload.isInvisible = true
                 if (nonEmpty(url)) {
                     loadImage(url)
                 } else PicassoInstance.with().cancelRequest(photo)
@@ -606,7 +608,7 @@ class PhotoPagerFragment : BaseMvpFragment<PhotoPagerPresenter, IPhotoPagerView>
         }
 
         private fun resolveProgressVisibility() {
-            progress.visibility = if (mLoadingNow) View.VISIBLE else View.GONE
+            progress.isVisible = mLoadingNow
             if (mLoadingNow) {
                 progress.setAnimation(
                     R.raw.loading,
@@ -646,13 +648,13 @@ class PhotoPagerFragment : BaseMvpFragment<PhotoPagerPresenter, IPhotoPagerView>
         override fun onSuccess() {
             mLoadingNow = false
             resolveProgressVisibility()
-            reload.visibility = View.INVISIBLE
+            reload.isInvisible = true
         }
 
         override fun onError(e: Exception?) {
             mLoadingNow = false
             resolveProgressVisibility()
-            reload.visibility = View.VISIBLE
+            reload.isVisible = true
         }
 
         init {

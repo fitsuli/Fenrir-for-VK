@@ -11,6 +11,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.IdRes
 import androidx.annotation.NonNull
+import androidx.core.view.isGone
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.squareup.picasso.Callback
 import com.umerov.rlottie.RLottieImageView
@@ -73,14 +76,14 @@ class SinglePhotoFragment : BaseFragment(), GoBackCallback, BackPressCallback {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_single_url_photo, container, false)
         val mDownload: CircleCounterButton = root.findViewById(R.id.button_download)
-        mDownload.visibility =
-            if (url!!.contains("content://") || url!!.contains("file://")) View.GONE else View.VISIBLE
+        mDownload.isGone =
+                url!!.contains("content://") || url!!.contains("file://")
         val ret = PhotoViewHolder(root)
         ret.bindTo(url!!)
         val ui = from(ret.photo)
         ui.settle = SettleOnTopAction()
         ui.sideEffect =
-            VerticalSwipeBehavior.PropertySideEffect(View.ALPHA, View.SCALE_X, View.SCALE_Y)
+                VerticalSwipeBehavior.PropertySideEffect(View.ALPHA, View.SCALE_X, View.SCALE_Y)
         val clampDelegate = VerticalSwipeBehavior.BelowFractionalClamp(3f, 3f)
         ui.clamp = VerticalSwipeBehavior.SensitivityClamp(0.5f, clampDelegate, 0.5f)
         ui.listener = object : VerticalSwipeBehavior.SwipeListener {
@@ -195,7 +198,7 @@ class SinglePhotoFragment : BaseFragment(), GoBackCallback, BackPressCallback {
         private var mLoadingNow = false
         fun bindTo(@NonNull url: String?) {
             reload.setOnClickListener {
-                reload.visibility = View.INVISIBLE
+                reload.isInvisible = true
                 if (nonEmpty(url)) {
                     loadImage(url)
                 } else PicassoInstance.with().cancelRequest(photo)
@@ -209,7 +212,7 @@ class SinglePhotoFragment : BaseFragment(), GoBackCallback, BackPressCallback {
         }
 
         private fun resolveProgressVisibility() {
-            progress.visibility = if (mLoadingNow) View.VISIBLE else View.GONE
+            progress.isVisible = mLoadingNow
             if (mLoadingNow) {
                 progress.setAnimation(
                     R.raw.loading,
@@ -249,13 +252,13 @@ class SinglePhotoFragment : BaseFragment(), GoBackCallback, BackPressCallback {
         override fun onSuccess() {
             mLoadingNow = false
             resolveProgressVisibility()
-            reload.visibility = View.INVISIBLE
+            reload.isInvisible = true
         }
 
         override fun onError(e: Exception?) {
             mLoadingNow = false
             resolveProgressVisibility()
-            reload.visibility = View.VISIBLE
+            reload.isVisible = true
         }
 
         init {

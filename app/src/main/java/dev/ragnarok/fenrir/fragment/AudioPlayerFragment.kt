@@ -19,6 +19,8 @@ import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import coil.clear
 import coil.load
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -107,22 +109,22 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
     private lateinit var mPlayerProgressStrings: Array<String>
 
     private val requestEqualizer = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
+            ActivityResultContracts.StartActivityForResult()
     ) {
         view?.let { it1 ->
             Snackbar.make(it1, R.string.equalizer_closed, Snackbar.LENGTH_LONG)
-                .setBackgroundTint(CurrentTheme.getColorPrimary(requireActivity()))
-                .setAnchorView(mPlayPauseButton).setActionTextColor(
-                    if (Utils.isColorDark(
-                            CurrentTheme.getColorPrimary(requireActivity())
-                        )
-                    ) Color.parseColor("#ffffff") else Color.parseColor("#000000")
-                )
-                .setTextColor(
-                    if (Utils.isColorDark(CurrentTheme.getColorPrimary(requireActivity()))) Color.parseColor(
-                        "#ffffff"
-                    ) else Color.parseColor("#000000")
-                ).show()
+                    .setBackgroundTint(CurrentTheme.getColorPrimary(requireActivity()))
+                    .setAnchorView(mPlayPauseButton).setActionTextColor(
+                            if (Utils.isColorDark(
+                                            CurrentTheme.getColorPrimary(requireActivity())
+                                    )
+                            ) Color.parseColor("#ffffff") else Color.parseColor("#000000")
+                    )
+                    .setTextColor(
+                            if (Utils.isColorDark(CurrentTheme.getColorPrimary(requireActivity()))) Color.parseColor(
+                                    "#ffffff"
+                            ) else Color.parseColor("#000000")
+                    ).show()
         }
     }
 
@@ -130,23 +132,23 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
      * Used to scan backwards through the track
      */
     private val mRewindListener =
-        RepeatingImageButton.RepeatListener { _: View?, howlong: Long, repcnt: Int ->
-            scanBackward(
-                repcnt,
-                howlong
-            )
-        }
+            RepeatingImageButton.RepeatListener { _: View?, howlong: Long, repcnt: Int ->
+                scanBackward(
+                        repcnt,
+                        howlong
+                )
+            }
 
     /**
      * Used to scan ahead through the track
      */
     private val mFastForwardListener =
-        RepeatingImageButton.RepeatListener { _: View?, howlong: Long, repcnt: Int ->
-            scanForward(
-                repcnt,
-                howlong
-            )
-        }
+            RepeatingImageButton.RepeatListener { _: View?, howlong: Long, repcnt: Int ->
+                scanForward(
+                        repcnt,
+                        howlong
+                )
+            }
     private var mAudioInteractor: IAudioInteractor? = null
     private var mAccountId = 0
     private val mBroadcastDisposable = CompositeDisposable()
@@ -162,8 +164,8 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
         mTimeHandler = TimeHandler(this)
         mPlayerProgressStrings = resources.getStringArray(R.array.player_progress_state)
         appendDisposable(MusicUtils.observeServiceBinding()
-            .compose(RxUtils.applyObservableIOToMainSchedulers())
-            .subscribe { onServiceBindEvent(it) })
+                .compose(RxUtils.applyObservableIOToMainSchedulers())
+                .subscribe { onServiceBindEvent(it) })
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -199,74 +201,74 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
     }
 
     private val requestWriteQRPermission = AppPerms.requestPermissions(
-        this,
-        arrayOf(
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE
-        )
+            this,
+            arrayOf(
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+            )
     ) { CreateCustomToast(requireActivity()).showToast(R.string.permission_all_granted_text) }
 
     @Suppress("DEPRECATION")
     private fun fireAudioQR() {
         val audio = MusicUtils.getCurrentAudio() ?: return
         val qr = generateQR(
-            "https://vk.com/audio/" + audio.ownerId + "_" + audio.id,
-            CurrentTheme.getColorPrimary(requireActivity()),
-            CurrentTheme.getColorSecondary(requireActivity()),
-            Color.parseColor("#ffffff"),
-            Color.parseColor("#000000"),
-            3
+                "https://vk.com/audio/" + audio.ownerId + "_" + audio.id,
+                CurrentTheme.getColorPrimary(requireActivity()),
+                CurrentTheme.getColorSecondary(requireActivity()),
+                Color.parseColor("#ffffff"),
+                Color.parseColor("#000000"),
+                3
         )
-        val dlgAlert = MaterialAlertDialogBuilder(requireActivity())
-        dlgAlert.setCancelable(true)
-        dlgAlert.setNegativeButton(R.string.button_cancel, null)
-        dlgAlert.setPositiveButton(R.string.save) { _, _ ->
-            if (!AppPerms.hasReadWriteStoragePermission(requireActivity())) {
-                requestWriteQRPermission.launch()
-            } else {
-                val path = Environment.getExternalStorageDirectory().absolutePath
-                val fOutputStream: OutputStream
-                val file = File(path, "qr_fenrir_audio_" + audio.ownerId + "_" + audio.id + ".png")
-                try {
-                    fOutputStream = FileOutputStream(file)
-                    assert(qr != null)
-                    qr!!.compress(Bitmap.CompressFormat.PNG, 100, fOutputStream)
-                    fOutputStream.flush()
-                    fOutputStream.close()
-                    requireActivity().sendBroadcast(
-                        Intent(
-                            Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
-                            Uri.fromFile(file)
-                        )
-                    )
-                    CreateCustomToast(requireActivity()).showToast(R.string.success)
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                    CreateCustomToast(requireActivity()).showToastError("Save Failed")
-                }
-            }
-        }
-        dlgAlert.setIcon(R.drawable.qr_code)
         val view: View = LayoutInflater.from(requireActivity()).inflate(R.layout.qr, null)
-        dlgAlert.setTitle(R.string.show_qr)
         val imageView: ShapeableImageView = view.findViewById(R.id.qr)
         imageView.setImageBitmap(qr)
-        dlgAlert.setView(view)
-        dlgAlert.show()
+        MaterialAlertDialogBuilder(requireActivity())
+                .setCancelable(true)
+                .setNegativeButton(R.string.button_cancel, null)
+                .setPositiveButton(R.string.save) { _, _ ->
+                    if (!AppPerms.hasReadWriteStoragePermission(requireActivity())) {
+                        requestWriteQRPermission.launch()
+                    } else {
+                        val path = Environment.getExternalStorageDirectory().absolutePath
+                        val fOutputStream: OutputStream
+                        val file = File(path, "qr_fenrir_audio_" + audio.ownerId + "_" + audio.id + ".png")
+                        try {
+                            fOutputStream = FileOutputStream(file)
+                            //assert(qr != null)
+                            qr!!.compress(Bitmap.CompressFormat.PNG, 100, fOutputStream)
+                            fOutputStream.flush()
+                            fOutputStream.close()
+                            requireActivity().sendBroadcast(
+                                    Intent(
+                                            Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
+                                            Uri.fromFile(file)
+                                    )
+                            )
+                            CreateCustomToast(requireActivity()).showToast(R.string.success)
+                        } catch (e: IOException) {
+                            e.printStackTrace()
+                            CreateCustomToast(requireActivity()).showToastError("Save Failed")
+                        }
+                    }
+                }
+                .setIcon(R.drawable.qr_code)
+                .setTitle(R.string.show_qr)
+                .setView(view)
+                .show()
     }
 
     private val requestWriteAudioPermission = AppPerms.requestPermissions(
-        this,
-        arrayOf(
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE
-        )
+            this,
+            arrayOf(
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+            )
     ) { onSaveButtonClick(requireView()) }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_audio_player, container, false)
         mProgress = root.findViewById(android.R.id.progress)
@@ -294,7 +296,7 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
                     callback = {
                         if (!isEmpty(MusicUtils.getQueue())) {
                             PlaylistFragment.newInstance(MusicUtils.getQueue() as ArrayList<Audio?>)
-                                .show(childFragmentManager, "audio_playlist")
+                                    .show(childFragmentManager, "audio_playlist")
                         }
                     }
                 }
@@ -304,12 +306,12 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
                     iconColor = CurrentTheme.getColorSecondary(requireActivity())
                     callback = {
                         val clipboard =
-                            requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                                requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                         var Artist =
-                            if (MusicUtils.getArtistName() != null) MusicUtils.getArtistName() else ""
+                                if (MusicUtils.getArtistName() != null) MusicUtils.getArtistName() else ""
                         if (MusicUtils.getAlbumName() != null) Artist += " (" + MusicUtils.getAlbumName() + ")"
                         val Name =
-                            if (MusicUtils.getTrackName() != null) MusicUtils.getTrackName() else ""
+                                if (MusicUtils.getTrackName() != null) MusicUtils.getTrackName() else ""
                         val clip = ClipData.newPlainText("response", "$Artist - $Name")
                         clipboard.setPrimaryClip(clip)
                         CreateCustomToast(requireActivity()).showToast(R.string.copied_to_clipboard)
@@ -329,9 +331,9 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
                     iconColor = CurrentTheme.getColorSecondary(requireActivity())
                     callback = {
                         PlaceFactory.getSingleTabSearchPlace(
-                            mAccountId,
-                            SearchContentType.AUDIOS,
-                            AudioSearchCriteria(MusicUtils.getArtistName(), true, false)
+                                mAccountId,
+                                SearchContentType.AUDIOS,
+                                AudioSearchCriteria(MusicUtils.getArtistName(), true, false)
                         ).tryOpenWith(requireActivity())
                         dismissAllowingStateLoss()
                     }
@@ -354,7 +356,7 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
         val ui = HorizontalSwipeBehavior.from(ivCover!!)
         ui.settle = HorizontalSwipeBehavior.OriginSettleAction()
         ui.sideEffect =
-            HorizontalSwipeBehavior.PropertySideEffect(View.ALPHA, View.SCALE_X, View.SCALE_Y)
+                HorizontalSwipeBehavior.PropertySideEffect(View.ALPHA, View.SCALE_X, View.SCALE_Y)
         val clampDelegate = HorizontalSwipeBehavior.BelowFractionalClamp(3f, 3f)
         ui.clamp = HorizontalSwipeBehavior.SensitivityClamp(0.5f, clampDelegate, 0.5f)
         ui.listener = object : HorizontalSwipeBehavior.SwipeListener {
@@ -401,31 +403,33 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
             }
         }
         ivAdd = root.findViewById(R.id.audio_add)
-        if (Settings.get().main().isPlayer_support_volume) {
-            ivAdd?.setImageResource(R.drawable.volume_minus)
-            ivAdd?.setOnClickListener {
-                val audio =
-                    requireActivity().getSystemService(Context.AUDIO_SERVICE) as AudioManager
-                audio.setStreamVolume(
-                    AudioManager.STREAM_MUSIC,
-                    audio.getStreamVolume(AudioManager.STREAM_MUSIC) - 1,
-                    0
-                )
+        ivAdd?.let {
+            if (Settings.get().main().isPlayer_support_volume) {
+                it.setImageResource(R.drawable.volume_minus)
+                it.setOnClickListener {
+                    val audio =
+                            requireActivity().getSystemService(Context.AUDIO_SERVICE) as AudioManager
+                    audio.setStreamVolume(
+                            AudioManager.STREAM_MUSIC,
+                            audio.getStreamVolume(AudioManager.STREAM_MUSIC) - 1,
+                            0
+                    )
+                }
+            } else {
+                it.setImageResource(R.drawable.plus)
+                it.setOnClickListener { onAddButtonClick() }
             }
-        } else {
-            ivAdd?.setImageResource(R.drawable.plus)
-            ivAdd?.setOnClickListener { onAddButtonClick() }
         }
         val ivShare: ImageView = root.findViewById(R.id.audio_share)
         if (Settings.get().main().isPlayer_support_volume) {
             ivShare.setImageResource(R.drawable.volume_plus)
             ivShare.setOnClickListener {
                 val audio =
-                    requireActivity().getSystemService(Context.AUDIO_SERVICE) as AudioManager
+                        requireActivity().getSystemService(Context.AUDIO_SERVICE) as AudioManager
                 audio.setStreamVolume(
-                    AudioManager.STREAM_MUSIC,
-                    audio.getStreamVolume(AudioManager.STREAM_MUSIC) + 1,
-                    0
+                        AudioManager.STREAM_MUSIC,
+                        audio.getStreamVolume(AudioManager.STREAM_MUSIC) + 1,
+                        0
                 )
             }
         } else {
@@ -439,8 +443,8 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
 
     private val isAudioStreaming: Boolean
         get() = Settings.get()
-            .other()
-            .isAudioBroadcastActive
+                .other()
+                .isAudioBroadcastActive
 
     @SuppressLint("ShowToast")
     private fun onSaveButtonClick(v: View) {
@@ -452,38 +456,38 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
             }
             1 -> {
                 Snackbar.make(v, R.string.audio_force_download, Snackbar.LENGTH_LONG).setAction(
-                    R.string.button_yes
+                        R.string.button_yes
                 ) { doDownloadAudio(requireActivity(), audio, mAccountId, true) }
-                    .setBackgroundTint(CurrentTheme.getColorPrimary(requireActivity()))
-                    .setAnchorView(mPlayPauseButton).setActionTextColor(
-                        if (Utils.isColorDark(
-                                CurrentTheme.getColorPrimary(requireActivity())
-                            )
-                        ) Color.parseColor("#ffffff") else Color.parseColor("#000000")
-                    )
-                    .setTextColor(
-                        if (Utils.isColorDark(CurrentTheme.getColorPrimary(requireActivity()))) Color.parseColor(
-                            "#ffffff"
-                        ) else Color.parseColor("#000000")
-                    ).show()
+                        .setBackgroundTint(CurrentTheme.getColorPrimary(requireActivity()))
+                        .setAnchorView(mPlayPauseButton).setActionTextColor(
+                                if (Utils.isColorDark(
+                                                CurrentTheme.getColorPrimary(requireActivity())
+                                        )
+                                ) Color.parseColor("#ffffff") else Color.parseColor("#000000")
+                        )
+                        .setTextColor(
+                                if (Utils.isColorDark(CurrentTheme.getColorPrimary(requireActivity()))) Color.parseColor(
+                                        "#ffffff"
+                                ) else Color.parseColor("#000000")
+                        ).show()
             }
             2 -> {
                 Snackbar.make(v, R.string.audio_force_download_pc, Snackbar.LENGTH_LONG)
-                    .setAnchorView(mPlayPauseButton).setAction(
-                        R.string.button_yes
-                    ) { doDownloadAudio(requireActivity(), audio, mAccountId, true) }
-                    .setBackgroundTint(CurrentTheme.getColorPrimary(requireActivity()))
-                    .setActionTextColor(
-                        if (Utils.isColorDark(
-                                CurrentTheme.getColorPrimary(requireActivity())
-                            )
-                        ) Color.parseColor("#ffffff") else Color.parseColor("#000000")
-                    )
-                    .setTextColor(
-                        if (Utils.isColorDark(CurrentTheme.getColorPrimary(requireActivity()))) Color.parseColor(
-                            "#ffffff"
-                        ) else Color.parseColor("#000000")
-                    ).show()
+                        .setAnchorView(mPlayPauseButton).setAction(
+                                R.string.button_yes
+                        ) { doDownloadAudio(requireActivity(), audio, mAccountId, true) }
+                        .setBackgroundTint(CurrentTheme.getColorPrimary(requireActivity()))
+                        .setActionTextColor(
+                                if (Utils.isColorDark(
+                                                CurrentTheme.getColorPrimary(requireActivity())
+                                        )
+                                ) Color.parseColor("#ffffff") else Color.parseColor("#000000")
+                        )
+                        .setTextColor(
+                                if (Utils.isColorDark(CurrentTheme.getColorPrimary(requireActivity()))) Color.parseColor(
+                                        "#ffffff"
+                                ) else Color.parseColor("#000000")
+                        ).show()
                 ivSave!!.setImageResource(R.drawable.succ)
             }
             else -> CreateCustomToast(requireActivity()).showToastBottom(R.string.error_audio)
@@ -516,25 +520,25 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
             caused.printStackTrace()
         }
         Snackbar.make(
-            requireView(),
-            ErrorLocalizer.localizeThrowable(Injection.provideApplicationContext(), caused),
-            BaseTransientBottomBar.LENGTH_LONG
+                requireView(),
+                ErrorLocalizer.localizeThrowable(Injection.provideApplicationContext(), caused),
+                BaseTransientBottomBar.LENGTH_LONG
         ).setTextColor(Color.WHITE).setBackgroundTint(Color.parseColor("#eeff0000"))
-            .setAction(R.string.more_info) {
-                val Text = StringBuilder()
-                for (stackTraceElement in throwable.stackTrace) {
-                    Text.append("    ")
-                    Text.append(stackTraceElement)
-                    Text.append("\r\n")
-                }
-                val dlgAlert = MaterialAlertDialogBuilder(requireActivity())
-                dlgAlert.setIcon(R.drawable.ic_error)
-                dlgAlert.setMessage(Text)
-                dlgAlert.setTitle(R.string.more_info)
-                dlgAlert.setPositiveButton("OK", null)
-                dlgAlert.setCancelable(true)
-                dlgAlert.create().show()
-            }.setActionTextColor(Color.WHITE).show()
+                .setAction(R.string.more_info) {
+                    val Text = StringBuilder()
+                    for (stackTraceElement in throwable.stackTrace) {
+                        Text.append("    ")
+                        Text.append(stackTraceElement)
+                        Text.append("\r\n")
+                    }
+                    MaterialAlertDialogBuilder(requireActivity())
+                            .setIcon(R.drawable.ic_error)
+                            .setMessage(Text)
+                            .setTitle(R.string.more_info)
+                            .setPositiveButton("OK", null)
+                            .setCancelable(true)
+                            .show()
+                }.setActionTextColor(Color.WHITE).show()
     }
 
     private fun onLyrics() {
@@ -544,8 +548,8 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
 
     private fun add(accountId: Int, audio: Audio) {
         appendDisposable(mAudioInteractor!!.add(accountId, audio, null)
-            .compose(RxUtils.applyCompletableIOToMainSchedulers())
-            .subscribe({ onAudioAdded() }) { showErrorInAdapter(it) })
+                .compose(RxUtils.applyCompletableIOToMainSchedulers())
+                .subscribe({ onAudioAdded() }) { showErrorInAdapter(it) })
     }
 
     private fun onAudioAdded() {
@@ -557,54 +561,54 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
         val id = audio.id
         val ownerId = audio.ownerId
         appendDisposable(mAudioInteractor!!.delete(accountId, id, ownerId)
-            .compose(RxUtils.applyCompletableIOToMainSchedulers())
-            .subscribe({
-                onAudioDeletedOrRestored(
-                    id,
-                    ownerId,
-                    true
-                )
-            }) { showErrorInAdapter(it) })
+                .compose(RxUtils.applyCompletableIOToMainSchedulers())
+                .subscribe({
+                    onAudioDeletedOrRestored(
+                            id,
+                            ownerId,
+                            true
+                    )
+                }) { showErrorInAdapter(it) })
     }
 
     private fun restore(accountId: Int, audio: Audio) {
         val id = audio.id
         val ownerId = audio.ownerId
         appendDisposable(mAudioInteractor!!.restore(accountId, id, ownerId)
-            .compose(RxUtils.applyCompletableIOToMainSchedulers())
-            .subscribe({
-                onAudioDeletedOrRestored(
-                    id,
-                    ownerId,
-                    false
-                )
-            }) { showErrorInAdapter(it) })
+                .compose(RxUtils.applyCompletableIOToMainSchedulers())
+                .subscribe({
+                    onAudioDeletedOrRestored(
+                            id,
+                            ownerId,
+                            false
+                    )
+                }) { showErrorInAdapter(it) })
     }
 
     private fun get_lyrics(audio: Audio) {
         appendDisposable(mAudioInteractor!!.getLyrics(mAccountId, audio.lyricsId)
-            .compose(RxUtils.applySingleIOToMainSchedulers())
-            .subscribe({ Text: String -> onAudioLyricsReceived(Text) }) { showErrorInAdapter(it) })
+                .compose(RxUtils.applySingleIOToMainSchedulers())
+                .subscribe({ Text: String -> onAudioLyricsReceived(Text) }) { showErrorInAdapter(it) })
     }
 
     private fun onAudioLyricsReceived(Text: String) {
         var title: String? = null
         if (MusicUtils.getCurrentAudio() != null) title =
-            MusicUtils.getCurrentAudio()?.artistAndTitle
-        val dlgAlert = MaterialAlertDialogBuilder(requireActivity())
-        dlgAlert.setIcon(R.drawable.dir_song)
-        dlgAlert.setMessage(Text)
-        dlgAlert.setTitle(title ?: requireActivity().getString(R.string.get_lyrics))
-        dlgAlert.setPositiveButton("OK", null)
-        dlgAlert.setNeutralButton(requireActivity().getString(R.string.copy_text)) { _: DialogInterface, _: Int ->
-            val clipboard =
-                requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clip = ClipData.newPlainText("response", Text)
-            clipboard.setPrimaryClip(clip)
-            CreateCustomToast(requireActivity()).showToast(R.string.copied_to_clipboard)
-        }
-        dlgAlert.setCancelable(true)
-        dlgAlert.create().show()
+                MusicUtils.getCurrentAudio()!!.artistAndTitle
+        MaterialAlertDialogBuilder(requireActivity())
+                .setIcon(R.drawable.dir_song)
+                .setMessage(Text)
+                .setTitle(title ?: requireActivity().getString(R.string.get_lyrics))
+                .setPositiveButton("OK", null)
+                .setNeutralButton(requireActivity().getString(R.string.copy_text)) { _: DialogInterface, _: Int ->
+                    val clipboard =
+                            requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                    val clip = ClipData.newPlainText("response", Text)
+                    clipboard.setPrimaryClip(clip)
+                    CreateCustomToast(requireActivity()).showToast(R.string.copied_to_clipboard)
+                }
+                .setCancelable(true)
+                .show()
     }
 
     private fun onAudioDeletedOrRestored(id: Int, ownerId: Int, deleted: Boolean) {
@@ -645,7 +649,7 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
     override fun onStartTrackingTouch(bar: SeekBar) {
         mLastSeekEventTime = 0
         mFromTouch = true
-        mCurrentTime!!.visibility = View.VISIBLE
+        mCurrentTime!!.isVisible = true
     }
 
     /**
@@ -708,21 +712,14 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
      */
     private fun updateNowPlayingInfo() {
         val coverUrl = MusicUtils.getAlbumCoverBig()
-        if (mGetLyrics != null) {
-            if (MusicUtils.getCurrentAudio() != null && MusicUtils.getCurrentAudio()?.lyricsId != 0) mGetLyrics!!.visibility =
-                View.VISIBLE else mGetLyrics!!.visibility = View.GONE
-        }
+        mGetLyrics?.isVisible = MusicUtils.getCurrentAudio() != null && MusicUtils.getCurrentAudio()?.lyricsId != 0
         if (tvAlbum != null) {
             var album = ""
             if (MusicUtils.getAlbumName() != null) album += requireActivity().getString(R.string.album) + " " + MusicUtils.getAlbumName()
             tvAlbum!!.text = album
         }
-        if (tvTitle != null) {
-            tvTitle!!.text = MusicUtils.getArtistName()
-        }
-        if (tvSubtitle != null) {
-            tvSubtitle!!.text = MusicUtils.getTrackName()
-        }
+        tvTitle?.text = MusicUtils.getArtistName()
+        tvSubtitle?.text = MusicUtils.getTrackName()
         if (coverUrl != null) {
             ivCover!!.scaleType = ImageView.ScaleType.FIT_START
             ivCover!!.load(coverUrl) {
@@ -783,7 +780,7 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
         }
         if (MusicUtils.isInitialized()) {
             mTotalTime!!.text =
-                MusicUtils.makeTimeString(requireActivity(), MusicUtils.duration() / 1000)
+                    MusicUtils.makeTimeString(requireActivity(), MusicUtils.duration() / 1000)
         }
     }
 
@@ -821,8 +818,8 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
         } catch (ignored: ActivityNotFoundException) {
             view?.let {
                 Snackbar.make(it, R.string.no_system_equalizer, BaseTransientBottomBar.LENGTH_LONG)
-                    .setTextColor(Color.WHITE).setBackgroundTint(Color.parseColor("#eeff0000"))
-                    .setActionTextColor(Color.WHITE).show()
+                        .setTextColor(Color.WHITE).setBackgroundTint(Color.parseColor("#eeff0000"))
+                        .setActionTextColor(Color.WHITE).show()
             }
         }
     }
@@ -851,7 +848,7 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
         //ivAdd.setVisibility(currentAudio == null ? View.INVISIBLE : View.VISIBLE);
         val myAudio = currentAudio.ownerId == mAccountId
         val icon =
-            if (myAudio && !currentAudio.isDeleted) R.drawable.ic_outline_delete else R.drawable.plus
+                if (myAudio && !currentAudio.isDeleted) R.drawable.ic_outline_delete else R.drawable.plus
         ivAdd!!.setImageResource(icon)
     }
 
@@ -863,8 +860,8 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
         val id = currentAudio.id
         val ownerId = currentAudio.ownerId
         mBroadcastDisposable.add(mAudioInteractor!!.sendBroadcast(accountId, ownerId, id, targetIds)
-            .compose(RxUtils.applyCompletableIOToMainSchedulers())
-            .subscribe({}) { })
+                .compose(RxUtils.applyCompletableIOToMainSchedulers())
+                .subscribe({}) { })
     }
 
     /**
@@ -996,13 +993,11 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
                         return 500
                     }
                     MusicUtils.isPlaying() -> {
-                        mCurrentTime!!.visibility = View.VISIBLE
+                        mCurrentTime!!.isVisible = true
                     }
                     else -> {
                         // blink the counter
-                        val vis = mCurrentTime!!.visibility
-                        mCurrentTime!!.visibility =
-                            if (vis == View.INVISIBLE) View.VISIBLE else View.INVISIBLE
+                        mCurrentTime!!.isInvisible = !mCurrentTime!!.isInvisible
                         return 500
                     }
                 }

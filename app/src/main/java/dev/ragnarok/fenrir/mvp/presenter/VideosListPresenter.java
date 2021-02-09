@@ -452,26 +452,21 @@ public class VideosListPresenter extends AccountDependencyPresenter<IVideosListV
     }
 
     public void fireVideoOption(int id, @NonNull Video video, int position, Context context) {
-        switch (id) {
-            case R.id.action_add_to_my_videos:
-                netDisposable.add(interactor.addToMy(getAccountId(), getAccountId(), video.getOwnerId(), video.getId())
-                        .compose(RxUtils.applyCompletableIOToMainSchedulers())
-                        .subscribe(this::onAddComplete, t -> showError(getView(), getCauseIfRuntime(t))));
-                break;
-            case R.id.action_edit:
-                fireEditVideo(context, position, video);
-                break;
-            case R.id.action_delete_from_my_videos:
-                netDisposable.add(interactor.delete(getAccountId(), video.getId(), video.getOwnerId(), getAccountId())
-                        .compose(RxUtils.applyCompletableIOToMainSchedulers())
-                        .subscribe(() -> {
-                            data.remove(position);
-                            callView(v -> v.notifyItemRemoved(position));
-                        }, t -> showError(getView(), getCauseIfRuntime(t))));
-                break;
-            case R.id.share_button:
-                getView().displayShareDialog(getAccountId(), video, getAccountId() != ownerId);
-                break;
+        if (id == R.id.action_add_to_my_videos) {
+            netDisposable.add(interactor.addToMy(getAccountId(), getAccountId(), video.getOwnerId(), video.getId())
+                    .compose(RxUtils.applyCompletableIOToMainSchedulers())
+                    .subscribe(this::onAddComplete, t -> showError(getView(), getCauseIfRuntime(t))));
+        } else if (id == R.id.action_edit) {
+            fireEditVideo(context, position, video);
+        } else if (id == R.id.action_delete_from_my_videos) {
+            netDisposable.add(interactor.delete(getAccountId(), video.getId(), video.getOwnerId(), getAccountId())
+                    .compose(RxUtils.applyCompletableIOToMainSchedulers())
+                    .subscribe(() -> {
+                        data.remove(position);
+                        callView(v -> v.notifyItemRemoved(position));
+                    }, t -> showError(getView(), getCauseIfRuntime(t))));
+        } else if (id == R.id.share_button) {
+            getView().displayShareDialog(getAccountId(), video, getAccountId() != ownerId);
         }
     }
 }

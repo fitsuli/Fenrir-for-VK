@@ -23,6 +23,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -180,7 +181,7 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPresenter, IChatView>(), IChatV
             it.layoutManager =
                 LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
             it.adapter = stickersAdapter
-            it.visibility = View.GONE
+            it.isVisible = false
         }
 
         downMenuGroup = root.findViewById(R.id.down_menu)
@@ -199,7 +200,7 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPresenter, IChatView>(), IChatV
         Writing_msg_Type = root.findViewById(R.id.writing_type)
         InputView = root.findViewById(R.id.input_view)
 
-        Writing_msg_Group?.visibility = View.GONE
+        Writing_msg_Group?.isVisible = false
 
         recyclerView = root.findViewById(R.id.fragment_friend_dialog_list)
         recyclerView?.apply {
@@ -273,10 +274,7 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPresenter, IChatView>(), IChatV
                 it.setOnLongClickListener { presenter?.fireDialogAttachmentsClick(); true; }
             }
 
-            if (!Settings.get().other().isEnable_last_read)
-                it.visibility = View.GONE
-            else
-                it.visibility = View.VISIBLE
+            it.isVisible = Settings.get().other().isEnable_last_read
         }
 
         editMessageGroup = root.findViewById(R.id.editMessageGroup)
@@ -291,7 +289,7 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPresenter, IChatView>(), IChatV
     }
 
     override fun displayEditingMessage(message: Message?) {
-        editMessageGroup?.visibility = if (message == null) View.GONE else View.VISIBLE
+        editMessageGroup?.isVisible = message != null
         message?.run {
             editMessageText?.text =
                 if (body.isNullOrEmpty()) getString(R.string.attachments) else body
@@ -302,7 +300,7 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPresenter, IChatView>(), IChatV
         if (writeText.from_ids.size < 1) {
             return
         }
-        Writing_msg_Group?.visibility = View.VISIBLE
+        Writing_msg_Group?.isVisible = true
         Writing_msg_Group?.alpha = 0.0f
         ObjectAnimator.ofFloat(Writing_msg_Group, View.ALPHA, 1f).setDuration(200).start()
         Writing_msg?.setText(if (writeText.isText) R.string.user_type_message else R.string.user_type_voice)
@@ -326,11 +324,7 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPresenter, IChatView>(), IChatV
     }
 
     override fun updateStickers(items: List<Sticker>) {
-        if (Utils.isEmpty(items)) {
-            stickersKeywordsView?.visibility = View.GONE
-        } else {
-            stickersKeywordsView?.visibility = View.VISIBLE
-        }
+        stickersKeywordsView?.isVisible = !Utils.isEmpty(items)
         stickersAdapter?.setData(items)
     }
 
@@ -339,7 +333,7 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPresenter, IChatView>(), IChatV
             ObjectAnimator.ofFloat(Writing_msg_Group, View.ALPHA, 0.0f).apply {
                 addListener(object : WeakViewAnimatorAdapter<View>(Writing_msg_Group) {
                     override fun onAnimationEnd(view: View) {
-                        Writing_msg_Group?.visibility = View.GONE
+                        Writing_msg_Group?.isVisible = false
                     }
 
                     override fun onAnimationStart(view: View) = Unit
@@ -404,17 +398,17 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPresenter, IChatView>(), IChatV
         }
 
         fun show() {
-            rootView.visibility = View.VISIBLE
+            rootView.isVisible = true
         }
 
-        fun isVisible(): Boolean = rootView.visibility == View.VISIBLE
+        fun isVisible(): Boolean = rootView.isVisible
 
         fun hide() {
             if (Settings.get().main().isMessages_menu_down) {
-                reference.get()?.InputView?.visibility = View.VISIBLE
-                reference.get()?.downMenuGroup?.visibility = View.GONE
+                reference.get()?.InputView?.isVisible = true
+                reference.get()?.downMenuGroup?.isVisible = false
             }
-            rootView.visibility = View.GONE
+            rootView.isVisible = false
             reference.get()?.presenter?.fireActionModeDestroy()
         }
     }
@@ -554,14 +548,14 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPresenter, IChatView>(), IChatV
 
     override fun displayToolbarAvatar(peer: Peer?) {
         if (nonEmpty(peer?.avaUrl)) {
-            EmptyAvatar?.visibility = View.GONE
+            EmptyAvatar?.isVisible = false
             PicassoInstance.with()
                 .load(peer?.avaUrl)
                 .transform(RoundTransformation())
                 .into(Avatar!!)
         } else {
             PicassoInstance.with().cancelRequest(Avatar!!)
-            EmptyAvatar?.visibility = View.VISIBLE
+            EmptyAvatar?.isVisible = true
             var name: String = peer!!.title
             if (name.length > 2) name = name.substring(0, 2)
             name = name.trim { it <= ' ' }
@@ -661,8 +655,8 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPresenter, IChatView>(), IChatV
             isVisible = pinned != null
             pinned?.run {
                 ViewUtils.displayAvatar(
-                    pinnedAvatar!!, CurrentTheme.createTransformationForAvatar(requireContext()),
-                    sender.get100photoOrSmaller(), null
+                        pinnedAvatar!!, CurrentTheme.createTransformationForAvatar(requireContext()),
+                        sender.get100photoOrSmaller(), null
                 )
 
                 pinnedTitle?.text = sender.fullName
@@ -670,8 +664,8 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPresenter, IChatView>(), IChatV
                     body = getString(R.string.attachments)
                 }
                 pinnedSubtitle?.text = body
-                buttonUnpin?.visibility = if (canChange) View.VISIBLE else View.GONE
-                pinnedView?.setOnClickListener { presenter?.fireMessagesLookup(pinned); }
+                buttonUnpin?.isVisible = canChange
+                setOnClickListener { presenter?.fireMessagesLookup(pinned); }
             }
         }
     }
@@ -726,9 +720,9 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPresenter, IChatView>(), IChatV
         } else {
             inputViewController?.closeBotKeyboard()
             inputViewController?.showEmoji(false)
-            InputView?.visibility = View.INVISIBLE
+            InputView?.isInvisible = true
             downMenuGroup?.run {
-                visibility = View.VISIBLE
+                isVisible = true
                 if (childCount == Constants.FRAGMENT_CHAT_DOWN_MENU_VIEW_COUNT) {
                     val v =
                         LayoutInflater.from(context).inflate(R.layout.view_action_mode, this, false)
@@ -742,18 +736,18 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPresenter, IChatView>(), IChatV
         actionModeHolder?.run {
             show()
             titleView.text = title
-            buttonEdit.visibility = if (canEdit) View.VISIBLE else View.GONE
-            buttonPin.visibility = if (canPin) View.VISIBLE else View.GONE
-            buttonStar.visibility = if (canStar) View.VISIBLE else View.GONE
+            buttonEdit.isVisible = canEdit
+            buttonPin.isVisible = canPin
+            buttonStar.isVisible = canStar
             buttonStar.setImageResource(if (doStar) R.drawable.star_add else R.drawable.star_none)
         }
     }
 
     override fun finishActionMode() {
-        actionModeHolder?.rootView?.visibility = View.GONE
+        actionModeHolder?.rootView?.isVisible = false
         if (Settings.get().main().isMessages_menu_down) {
-            InputView?.visibility = View.VISIBLE
-            downMenuGroup?.visibility = View.GONE
+            InputView?.isVisible = true
+            downMenuGroup?.isVisible = false
         }
     }
 
@@ -832,18 +826,18 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPresenter, IChatView>(), IChatV
                         }
                         Upload.IMAGE_SIZE_CROPPING -> {
                             openRequestPhotoResize.launch(
-                                UCrop.of(
-                                    Uri.fromFile(File(file)),
-                                    Uri.fromFile(File(requireActivity().externalCacheDir.toString() + File.separator + "scale.jpg"))
-                                )
-                                    .getIntent(requireActivity())
+                                    UCrop.of(
+                                            Uri.fromFile(File(file)),
+                                            Uri.fromFile(File(requireActivity().externalCacheDir.toString() + File.separator + "scale.jpg"))
+                                    )
+                                            .getIntent(requireActivity())
                             )
                         }
                         else -> presenter?.fireFilePhotoForUploadSelected(file, defaultSize)
                     }
                 }
             }
-            .create().show()
+                .show()
     }
 
     override fun goToMessageAttachmentsEditor(
@@ -1009,21 +1003,23 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPresenter, IChatView>(), IChatV
 
         init {
             recyclerView.layoutManager =
-                LinearLayoutManager(rootView.context, LinearLayoutManager.HORIZONTAL, false)
+                    LinearLayoutManager(rootView.context, LinearLayoutManager.HORIZONTAL, false)
             recyclerView.adapter = adapter
 
-            rootView.findViewById<View>(R.id.buttonHide).setOnClickListener(this)
-            rootView.findViewById<View>(R.id.buttonVideo).setOnClickListener(this)
-            rootView.findViewById<View>(R.id.buttonAudio).setOnClickListener(this)
-            rootView.findViewById<View>(R.id.buttonDoc).setOnClickListener(this)
-            rootView.findViewById<View>(R.id.buttonCamera).setOnClickListener(this)
-            rootView.findViewById<View>(R.id.buttonSave).setOnClickListener(this)
+            with(rootView) {
+                findViewById<View>(R.id.buttonHide).setOnClickListener(this@EditAttachmentsHolder)
+                findViewById<View>(R.id.buttonVideo).setOnClickListener(this@EditAttachmentsHolder)
+                findViewById<View>(R.id.buttonAudio).setOnClickListener(this@EditAttachmentsHolder)
+                findViewById<View>(R.id.buttonDoc).setOnClickListener(this@EditAttachmentsHolder)
+                findViewById<View>(R.id.buttonCamera).setOnClickListener(this@EditAttachmentsHolder)
+                findViewById<View>(R.id.buttonSave).setOnClickListener(this@EditAttachmentsHolder)
+            }
 
             checkEmptyViewVisibility()
         }
 
         fun checkEmptyViewVisibility() {
-            emptyView.visibility = if (adapter.itemCount < 2) View.VISIBLE else View.INVISIBLE
+            emptyView.isVisible = adapter.itemCount < 2
         }
 
         fun notifyAttachmentRemoved(index: Int) {
@@ -1638,7 +1634,7 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPresenter, IChatView>(), IChatV
     }
 
     private fun isActionModeVisible(): Boolean {
-        return actionModeHolder?.rootView?.visibility == View.VISIBLE
+        return actionModeHolder?.rootView?.isVisible == true
     }
 
     override fun onMessageDelete(message: Message) {

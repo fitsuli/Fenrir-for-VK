@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -86,7 +87,7 @@ class UserDetailsFragment : BaseMvpFragment<UserDetailsPresenter, IUserDetailsVi
             PicassoInstance.with().load(ava)
                 .into(ivAvatar)
         }
-        ivMail?.visibility = if (user.canWritePrivateMessage) View.VISIBLE else View.GONE
+        ivMail?.isVisible = user.canWritePrivateMessage
     }
 
     override fun openOwnerProfile(accountId: Int, ownerId: Int, owner: Owner?) {

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.CallSuper
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import dev.ragnarok.fenrir.R
 import dev.ragnarok.fenrir.materialpopupmenu.MaterialPopupMenu
@@ -62,13 +63,13 @@ internal class PopupMenuAdapter(
     ) {
         val title = sections[sectionPosition].title
         if (title != null) {
-            holder.label.visibility = View.VISIBLE
+            holder.label.isVisible = true
             holder.label.text = title
         } else {
-            holder.label.visibility = View.GONE
+            holder.label.isVisible = false
         }
 
-        holder.separator.visibility = if (sectionPosition == 0) View.GONE else View.VISIBLE
+        holder.separator.isVisible = sectionPosition != 0
     }
 
     override fun onBindItemViewHolder(holder: AbstractItemViewHolder, section: Int, position: Int) {
@@ -114,7 +115,7 @@ internal class PopupMenuAdapter(
             }
             if (castedPopupMenuItem.icon != 0 || castedPopupMenuItem.iconDrawable != null) {
                 icon.apply {
-                    visibility = View.VISIBLE
+                    isVisible = true
                     setImageResource(castedPopupMenuItem.icon)
                     castedPopupMenuItem.iconDrawable?.let { setImageDrawable(it) }
                     if (castedPopupMenuItem.iconColor != 0) {
@@ -122,13 +123,13 @@ internal class PopupMenuAdapter(
                     }
                 }
             } else {
-                icon.visibility = View.GONE
+                icon.isVisible = false
             }
             if (castedPopupMenuItem.labelColor != 0) {
                 label.setTextColor(castedPopupMenuItem.labelColor)
             }
-            nestedIcon.visibility =
-                if (castedPopupMenuItem.hasNestedItems) View.VISIBLE else View.GONE
+            nestedIcon.isVisible =
+                    castedPopupMenuItem.hasNestedItems
             super.bindItem(popupMenuItem)
         }
     }

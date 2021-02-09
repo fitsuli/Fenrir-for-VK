@@ -395,7 +395,7 @@ class ZoomHelper {
 
     private fun dismissDialogAndViews() {
         if (zoomableView != null) {
-            zoomableView?.visibility = View.VISIBLE
+            zoomableView!!.visibility = View.VISIBLE
             if (placeHolderEnabled) {
                 placeHolderView?.visibility = View.VISIBLE
                 placeHolderView?.postDelayed({
@@ -441,7 +441,7 @@ class ZoomHelper {
         placeHolderView = null
 
         if (zoomableView != null) {
-            zoomableView?.invalidate()
+            zoomableView!!.invalidate()
             zoomableView = null
         }
 

@@ -14,6 +14,8 @@ import androidx.annotation.NonNull
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -160,10 +162,10 @@ class StoryPagerFragment : BaseMvpFragment<StoryPagerPresenter, IStoryPagerView>
 
     private fun resolveFullscreenViews() {
         if (Objects.nonNull(mToolbar)) {
-            mToolbar!!.visibility = if (mFullscreen) View.GONE else View.VISIBLE
+            mToolbar!!.isVisible = !mFullscreen
         }
         if (Objects.nonNull(mDownload)) {
-            mDownload!!.visibility = if (mFullscreen) View.GONE else View.VISIBLE
+            mDownload!!.isVisible = !mFullscreen
         }
     }
 
@@ -244,26 +246,27 @@ class StoryPagerFragment : BaseMvpFragment<StoryPagerPresenter, IStoryPagerView>
             )
         }
         if (Objects.nonNull(mExp)) {
-            if (story.expires <= 0) mExp!!.visibility = View.GONE else {
-                mExp!!.visibility = View.VISIBLE
+            if (story.expires <= 0) mExp!!.isVisible = false
+            else {
+                mExp!!.isVisible = true
                 val exp = (story.expires - Calendar.getInstance().time.time / 1000) / 3600
                 mExp!!.text = getString(
-                    R.string.expires,
-                    exp.toString(),
-                    getString(
-                        Utils.declOfNum(
-                            exp,
-                            intArrayOf(R.string.hour, R.string.hour_sec, R.string.hours)
+                        R.string.expires,
+                        exp.toString(),
+                        getString(
+                                Utils.declOfNum(
+                                        exp,
+                                        intArrayOf(R.string.hour, R.string.hour_sec, R.string.hours)
+                                )
                         )
-                    )
                 )
             }
         }
         if (Objects.nonNull(mLink)) {
             if (Utils.isEmpty(story.target_url)) {
-                mLink!!.visibility = View.GONE
+                mLink!!.isVisible = false
             } else {
-                mLink!!.visibility = View.VISIBLE
+                mLink!!.isVisible = true
                 mLink!!.setOnClickListener {
                     LinkHelper.openUrl(
                         requireActivity(),
@@ -328,7 +331,7 @@ class StoryPagerFragment : BaseMvpFragment<StoryPagerPresenter, IStoryPagerView>
         }
 
         override fun setProgressVisible(visible: Boolean) {
-            mProgressBar.visibility = if (visible) View.VISIBLE else View.GONE
+            mProgressBar.isVisible = visible
             if (visible) {
                 mProgressBar.setAnimation(
                     R.raw.loading,
@@ -395,7 +398,7 @@ class StoryPagerFragment : BaseMvpFragment<StoryPagerPresenter, IStoryPagerView>
             if (story.photo == null) return
             val url = story.photo.getUrlForSize(PhotoSize.W, true)
             reload.setOnClickListener {
-                reload.visibility = View.INVISIBLE
+                reload.isInvisible = true
                 if (nonEmpty(url)) {
                     loadImage(url)
                 } else PicassoInstance.with().cancelRequest(photo)
@@ -409,7 +412,7 @@ class StoryPagerFragment : BaseMvpFragment<StoryPagerPresenter, IStoryPagerView>
         }
 
         private fun resolveProgressVisibility() {
-            progress.visibility = if (mLoadingNow) View.VISIBLE else View.GONE
+            progress.isVisible = mLoadingNow
             if (mLoadingNow) {
                 progress.setAnimation(
                     R.raw.loading,
@@ -449,13 +452,13 @@ class StoryPagerFragment : BaseMvpFragment<StoryPagerPresenter, IStoryPagerView>
         override fun onSuccess() {
             mLoadingNow = false
             resolveProgressVisibility()
-            reload.visibility = View.INVISIBLE
+            reload.isInvisible = true
         }
 
         override fun onError(e: Exception?) {
             mLoadingNow = false
             resolveProgressVisibility()
-            reload.visibility = View.VISIBLE
+            reload.isVisible = true
         }
 
         init {

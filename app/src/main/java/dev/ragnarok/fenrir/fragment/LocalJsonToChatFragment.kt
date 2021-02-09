@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -188,7 +189,7 @@ class LocalJsonToChatFragment :
 
     private fun resolveEmptyText() {
         if (Objects.nonNull(mEmpty) && Objects.nonNull(mAdapter)) {
-            mEmpty!!.visibility = if (mAdapter!!.itemCount == 0) View.VISIBLE else View.GONE
+            mEmpty!!.isVisible = mAdapter!!.itemCount == 0
         }
     }
 
@@ -235,14 +236,14 @@ class LocalJsonToChatFragment :
             presenter?.fireOwnerClick(peer.id)
         }
         if (Utils.nonEmpty(peer.avaUrl)) {
-            EmptyAvatar?.visibility = View.GONE
+            EmptyAvatar?.isVisible = false
             PicassoInstance.with()
                 .load(peer.avaUrl)
                 .transform(RoundTransformation())
                 .into(Avatar!!)
         } else {
             PicassoInstance.with().cancelRequest(Avatar!!)
-            EmptyAvatar?.visibility = View.VISIBLE
+            EmptyAvatar?.isVisible = true
             var name: String = peer.title
             if (name.length > 2) name = name.substring(0, 2)
             name = name.trim { it <= ' ' }
