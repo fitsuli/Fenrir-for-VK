@@ -203,11 +203,6 @@ class UISettings implements ISettings.IUISettings {
     }
 
     @Override
-    public boolean isEmojis_full_screen() {
-        return PreferenceManager.getDefaultSharedPreferences(app).getBoolean("emojis_full_screen", false);
-    }
-
-    @Override
     public boolean isStickers_by_theme() {
         return PreferenceManager.getDefaultSharedPreferences(app).getBoolean("stickers_by_theme", true);
     }

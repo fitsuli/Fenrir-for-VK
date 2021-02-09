@@ -23,13 +23,11 @@ import java.util.Objects;
 
 import dev.ragnarok.fenrir.R;
 import dev.ragnarok.fenrir.model.Keyboard;
-import dev.ragnarok.fenrir.settings.Settings;
 import dev.ragnarok.fenrir.util.Utils;
 
 public class BotKeyboardView extends ScrollView {
 
     private final ArrayList<View> buttonViews = new ArrayList<>();
-    private final boolean isFullSize = Settings.get().ui().isEmojis_full_screen();
     private LinearLayout container;
     private List<List<Keyboard.Button>> botButtons;
     private BotKeyboardViewDelegate delegate;
@@ -51,10 +49,6 @@ public class BotKeyboardView extends ScrollView {
         int statusbarHeight = getContext().getResources().getIdentifier("status_bar_height", "dimen", "android");
         if (statusbarHeight > 0) {
             heightDifference -= getContext().getResources().getDimensionPixelSize(statusbarHeight);
-        }
-
-        if (heightDifference > 200) {
-            setPanelHeight(heightDifference);
         }
     };
     private boolean needKeyboardListen;
@@ -140,7 +134,7 @@ public class BotKeyboardView extends ScrollView {
         scrollTo(0, 0);
 
         if (buttons != null && buttons.size() != 0) {
-            buttonHeight = !isFullSize ? 42 : (int) Math.max(42, (float) (panelHeight - Utils.dp(30) - (botButtons.size() - 1) * Utils.dp(10)) / botButtons.size() / Utils.getDensity());
+            buttonHeight = 42;
             for (int a = 0; a < buttons.size(); a++) {
                 List<Keyboard.Button> row = buttons.get(a);
 
@@ -181,28 +175,11 @@ public class BotKeyboardView extends ScrollView {
         return true;
     }
 
-    public void setPanelHeight(int height) {
-        panelHeight = height;
-        if (isFullSize && botButtons != null && botButtons.size() != 0) {
-            buttonHeight = (int) Math.max(42, (float) (panelHeight - Utils.dp(30) - (botButtons.size() - 1) * Utils.dp(10)) / botButtons.size() / Utils.getDensity());
-            int count = container.getChildCount();
-            int newHeight = Utils.dp(buttonHeight);
-            for (int a = 0; a < count; a++) {
-                View v = container.getChildAt(a);
-                LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) v.getLayoutParams();
-                if (layoutParams.height != newHeight) {
-                    layoutParams.height = newHeight;
-                    v.setLayoutParams(layoutParams);
-                }
-            }
-        }
-    }
-
     public int getKeyboardHeight() {
         if (botButtons == null) {
             return 0;
         }
-        return isFullSize ? panelHeight : botButtons.size() * Utils.dp(buttonHeight) + Utils.dp(30) + (botButtons.size() - 1) * Utils.dp(10);
+        return botButtons.size() * Utils.dp(buttonHeight) + Utils.dp(30) + (botButtons.size() - 1) * Utils.dp(10);
     }
 
     private void listenKeyboardSize() {

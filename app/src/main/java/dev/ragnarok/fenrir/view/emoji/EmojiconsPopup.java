@@ -89,7 +89,7 @@ public class EmojiconsPopup {
             if (heightDifference > 200) {
                 keyBoardHeight = heightDifference;
 
-                if (Objects.nonNull(emojiContainer) && !Settings.get().ui().isEmojis_full_screen()) {
+                if (Objects.nonNull(emojiContainer)) {
                     ViewGroup.LayoutParams layoutParams = emojiContainer.getLayoutParams();
                     layoutParams.height = keyBoardHeight;
                     layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
@@ -198,7 +198,7 @@ public class EmojiconsPopup {
         if (Objects.isNull(emojiContainer)) {
             emojiContainer = createCustomView(emojiParentView);
 
-            int finalKeyboardHeight = Settings.get().ui().isEmojis_full_screen() ? ViewGroup.LayoutParams.MATCH_PARENT : (keyBoardHeight > 0 ? keyBoardHeight : (int) mContext.getResources().getDimension(R.dimen.keyboard_height));
+            int finalKeyboardHeight = keyBoardHeight > 0 ? keyBoardHeight : (int) mContext.getResources().getDimension(R.dimen.keyboard_height);
             ViewGroup.LayoutParams layoutParams = emojiContainer.getLayoutParams();
             layoutParams.height = finalKeyboardHeight;
             layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;

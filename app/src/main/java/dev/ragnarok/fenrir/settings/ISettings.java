@@ -178,12 +178,6 @@ public interface ISettings {
         @NonNull
         List<Integer> getDonates();
 
-        int getPaganSymbol();
-
-        boolean isRunes_show();
-
-        boolean isShow_pagan_symbol();
-
         @Lang
         int getLanguage();
 
@@ -448,8 +442,6 @@ public interface ISettings {
         void notifyPlaceResumed(int type);
 
         boolean isSystemEmoji();
-
-        boolean isEmojis_full_screen();
 
         boolean isStickers_by_theme();
 

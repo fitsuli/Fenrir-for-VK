@@ -459,15 +459,6 @@ class OtherSettings implements ISettings.IOtherSettings {
         return ids;
     }
 
-    @Override
-    public int getPaganSymbol() {
-        try {
-            return Integer.parseInt(java.util.Objects.requireNonNull(PreferenceManager.getDefaultSharedPreferences(app).getString("pagan_symbol", "0")));
-        } catch (Exception e) {
-            return 0;
-        }
-    }
-
     @Lang
     @Override
     public int getLanguage() {
@@ -479,10 +470,6 @@ class OtherSettings implements ISettings.IOtherSettings {
         return Integer.parseInt(java.util.Objects.requireNonNull(PreferenceManager.getDefaultSharedPreferences(app).getString("end_list_anim", "0")));
     }
 
-    @Override
-    public boolean isShow_pagan_symbol() {
-        return PreferenceManager.getDefaultSharedPreferences(app).getBoolean("show_pagan_symbol", true);
-    }
 
     @Override
     public void setSymbolSelectShow(boolean show) {
@@ -491,10 +478,5 @@ class OtherSettings implements ISettings.IOtherSettings {
                 .edit()
                 .putBoolean("symbol_select_show", show)
                 .apply();
-    }
-
-    @Override
-    public boolean isRunes_show() {
-        return PreferenceManager.getDefaultSharedPreferences(app).getBoolean("runes_show", true);
     }
 }

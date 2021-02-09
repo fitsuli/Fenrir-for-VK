@@ -106,24 +106,6 @@
         <item>1</item>
     </string-array>
 
-    <string-array name="array_pagan_symbol_names">
-        <item>Yggdrasil</item>
-        <item>Valknut</item>
-        <item>Mjolnir</item>
-        <item>Vegvisir</item>
-        <item>Celtic knot</item>
-        <item>Yggdrasil v2</item>
-    </string-array>
-
-    <string-array name="array_pagan_symbol_items" translatable="false">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-    </string-array>
-
     <string-array name="array_accounts_input">
         <item>VK Android</item>
         <item>Kate</item>
@@ -339,7 +321,6 @@
     <string name="chat_empty_text">The history of the dialog will be displayed here.</string>
 
     <string name="emojis_type_title">Use system emoticons</string>
-    <string name="emojis_full_screen">Full screen stickers</string>
     <string name="stickers_by_theme">Day/Night Stickers</string>
     <string name="stickers_by_new">Stickers from new to old</string>
     <string name="stickers_by_theme_summary">May not be displayed correctly when selected</string>
@@ -745,7 +726,6 @@
     <string name="developer">Developers:</string>
     <string name="first_developer">Umerov Artyom</string>
     <string name="second_developer">Danilyuk Dmitry</string>
-    <string name="first_pagan">First pagan</string>
     <string name="repo">Repository: https://github.com/umerov1999/Fenrir-for-VK</string>
     <string name="repo_local_server">Repository: https://github.com/umerov1999/FenrirMediaServer/releases</string>
     <string name="is_donated">Donate check</string>
@@ -1606,10 +1586,6 @@
     <string name="change_upload_size">Show picture sending quality settings</string>
     <string name="go_donate">Donate</string>
     <string name="in_full_version">Available in full version!</string>
-    <string name="wall_themed">Wall decoration for pagans</string>
-    <string name="runes_show">Show runes</string>
-    <string name="show_pagan_symbol">Show symbol</string>
-    <string name="pagan_symbol">Pagan symbol</string>
     <string name="photo_settings">Viewing photos</string>
     <string name="canceled_by_receiver">Canceled by recipient</string>
     <string name="canceled_by_initiator">Canceled by the initiator</string>

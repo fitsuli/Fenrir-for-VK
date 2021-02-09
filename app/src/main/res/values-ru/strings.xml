@@ -44,15 +44,6 @@
         <item>Slidr</item>
     </string-array>
 
-    <string-array name="array_pagan_symbol_names">
-        <item>Иггдрасиль</item>
-        <item>Валькнут</item>
-        <item>Мьёльнир</item>
-        <item>Вегвизир</item>
-        <item>Кельтский узел</item>
-        <item>Иггдрасиль v2</item>
-    </string-array>
-
     <string-array name="array_accounts_input">
         <item>VK Android</item>
         <item>Kate</item>
@@ -233,7 +224,6 @@
     <string name="chat_empty_text">Здесь будет выводиться история переписки.</string>
 
     <string name="emojis_type_title">Использовать системные смайлы</string>
-    <string name="emojis_full_screen">Стикеры на весь экран</string>
     <string name="stickers_by_theme">Дневные/ночные стикеры</string>
     <string name="stickers_by_new">Стикеры от новых к старым</string>
     <string name="stickers_by_theme_summary">Могут некорректно отображаться при выборе</string>
@@ -634,7 +624,6 @@
     <string name="developer">Разработчики:</string>
     <string name="first_developer">Умеров Артём</string>
     <string name="second_developer">Данилюк Дмитрий</string>
-    <string name="first_pagan">Первый языческий</string>
     <string name="repo">Репозиторий: https://github.com/umerov1999/Fenrir-for-VK</string>
     <string name="repo_local_server">Репозиторий: https://github.com/umerov1999/FenrirMediaServer/releases</string>
     <string name="is_donated">Проверка доната</string>
@@ -1452,10 +1441,6 @@
     <string name="change_upload_size">Настройки качества отправки фото</string>
     <string name="go_donate">Пожертвовать</string>
     <string name="in_full_version">Доступно в полной версии!</string>
-    <string name="wall_themed">Оформление стены для язычников</string>
-    <string name="runes_show">Показывать руны</string>
-    <string name="show_pagan_symbol">Показывать символ</string>
-    <string name="pagan_symbol">Языческий символ</string>
     <string name="photo_settings">Просмотр фото</string>
     <string name="canceled_by_receiver">Отменён получателем</string>
     <string name="canceled_by_initiator">Отменён инициатором</string>
