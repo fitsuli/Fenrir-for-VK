@@ -230,7 +230,7 @@ class OtherSettings implements ISettings.IOtherSettings {
 
     @Override
     public boolean isAuto_read() {
-        return PreferenceManager.getDefaultSharedPreferences(app).getBoolean("auto_read", false);
+        return PreferenceManager.getDefaultSharedPreferences(app).getBoolean("auto_read", true);
     }
 
     @Override
@@ -275,7 +275,7 @@ class OtherSettings implements ISettings.IOtherSettings {
 
     @Override
     public boolean isEnable_show_recent_dialogs() {
-        return PreferenceManager.getDefaultSharedPreferences(app).getBoolean("show_recent_dialogs", true);
+        return PreferenceManager.getDefaultSharedPreferences(app).getBoolean("show_recent_dialogs", false);
     }
 
     @Override
@@ -355,17 +355,17 @@ class OtherSettings implements ISettings.IOtherSettings {
 
     @Override
     public boolean isDisabled_encryption() {
-        return PreferenceManager.getDefaultSharedPreferences(app).getBoolean("disable_encryption", false);
+        return PreferenceManager.getDefaultSharedPreferences(app).getBoolean("disable_encryption", true);
     }
 
     @Override
     public boolean isDownload_photo_tap() {
-        return PreferenceManager.getDefaultSharedPreferences(app).getBoolean("download_photo_tap", true);
+        return PreferenceManager.getDefaultSharedPreferences(app).getBoolean("download_photo_tap", false);
     }
 
     @Override
     public boolean isAudio_save_mode_button() {
-        return PreferenceManager.getDefaultSharedPreferences(app).getBoolean("audio_save_mode_button", true);
+        return PreferenceManager.getDefaultSharedPreferences(app).getBoolean("audio_save_mode_button", false);
     }
 
     @Override

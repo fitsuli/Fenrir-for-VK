@@ -92,7 +92,7 @@
         app:useSimpleSummaryProvider="true" />
 
     <SwitchPreference
-        android:defaultValue="false"
+        android:defaultValue="true"
         android:key="disable_encryption"
         android:title="@string/disable_encryption"
         app:iconSpaceReserved="false" />

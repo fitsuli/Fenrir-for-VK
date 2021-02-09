@@ -52,7 +52,7 @@
             android:key="default_category"
             android:summary="@string/default_category_summary"
             android:title="@string/default_category_title"
-            android:defaultValue="1"
+            android:defaultValue="0"
             app:iconSpaceReserved="false"
             app:useSimpleSummaryProvider="true" />
 
@@ -135,7 +135,7 @@
             app:useSimpleSummaryProvider="true" />
 
         <SwitchPreference
-            android:defaultValue="true"
+            android:defaultValue="false"
             android:key="download_photo_tap"
             android:title="@string/download_photo_tap"
             app:iconSpaceReserved="false" />
@@ -195,7 +195,7 @@
             app:useSimpleSummaryProvider="true" />
 
         <SwitchPreference
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:key="amoled_theme"
             android:title="@string/amoled_theme"
             app:iconSpaceReserved="false" />
@@ -447,7 +447,7 @@
         app:initialExpandedChildrenCount="3">
 
         <SwitchPreference
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:key="auto_read"
             android:title="@string/auto_read"
             app:iconSpaceReserved="false" />
@@ -543,7 +543,7 @@
             app:iconSpaceReserved="false" />
 
         <SwitchPreference
-            android:defaultValue="true"
+            android:defaultValue="false"
             android:key="audio_save_mode_button"
             android:title="@string/audio_save_mode_button"
             app:iconSpaceReserved="false" />

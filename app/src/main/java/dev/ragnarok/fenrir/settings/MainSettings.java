@@ -34,7 +34,7 @@ class MainSettings implements ISettings.IMainSettings {
 
     @Override
     public boolean isAmoledTheme() {
-        return getDefaultPreferences().getBoolean("amoled_theme", false);
+        return getDefaultPreferences().getBoolean("amoled_theme", true);
     }
 
     @Override
