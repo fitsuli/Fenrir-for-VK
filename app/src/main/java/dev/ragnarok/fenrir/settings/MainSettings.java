@@ -185,11 +185,6 @@ class MainSettings implements ISettings.IMainSettings {
     }
 
     @Override
-    public boolean isSnow_mode() {
-        return getDefaultPreferences().getBoolean("snow_mode", false);
-    }
-
-    @Override
     public boolean isDont_write() {
         return getDefaultPreferences().getBoolean("dont_write", false);
     }

@@ -237,7 +237,7 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
                     supportFinishAfterTransition();
                 }
             });
-    protected int mLayoutRes = Settings.get().main().isSnow_mode() ? R.layout.activity_main_with_snow : R.layout.activity_main;
+    protected int mLayoutRes = R.layout.activity_main;
     protected long mLastBackPressedTime;
     /**
      * Атрибуты секции, которая на данный момент находится на главном контейнере экрана
@@ -1517,26 +1517,26 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_feed:
-                openPageAndCloseSheet(AdditionalNavigationFragment.SECTION_ITEM_FEED);
-                return true;
-            case R.id.menu_search:
-                openPageAndCloseSheet(AdditionalNavigationFragment.SECTION_ITEM_SEARCH);
-                return true;
-            case R.id.menu_messages:
-                openPageAndCloseSheet(AdditionalNavigationFragment.SECTION_ITEM_DIALOGS);
-                return true;
-            case R.id.menu_feedback:
-                openPageAndCloseSheet(AdditionalNavigationFragment.SECTION_ITEM_FEEDBACK);
-                return true;
-            case R.id.menu_other:
-                if (getNavigationFragment().isSheetOpen()) {
-                    getNavigationFragment().closeSheet();
-                } else {
-                    getNavigationFragment().openSheet();
-                }
-                return true;
+        int itemId = item.getItemId();
+        if (itemId == R.id.menu_feed) {
+            openPageAndCloseSheet(AdditionalNavigationFragment.SECTION_ITEM_FEED);
+            return true;
+        } else if (itemId == R.id.menu_search) {
+            openPageAndCloseSheet(AdditionalNavigationFragment.SECTION_ITEM_SEARCH);
+            return true;
+        } else if (itemId == R.id.menu_messages) {
+            openPageAndCloseSheet(AdditionalNavigationFragment.SECTION_ITEM_DIALOGS);
+            return true;
+        } else if (itemId == R.id.menu_feedback) {
+            openPageAndCloseSheet(AdditionalNavigationFragment.SECTION_ITEM_FEEDBACK);
+            return true;
+        } else if (itemId == R.id.menu_other) {
+            if (getNavigationFragment().isSheetOpen()) {
+                getNavigationFragment().closeSheet();
+            } else {
+                getNavigationFragment().openSheet();
+            }
+            return true;
         }
         return false;
     }

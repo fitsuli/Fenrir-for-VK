@@ -5,9 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="1dp"
+    android:animateLayoutChanges="true"
     android:elevation="3dp"
     android:orientation="horizontal"
-    android:paddingTop="4dp">
+    android:paddingTop="2dp"
+    android:paddingBottom="2dp">
 
     <FrameLayout
         android:id="@+id/item_audio_play"
@@ -19,71 +21,45 @@
 
         <ImageView
             android:id="@+id/item_audio_play_cover"
-            android:layout_width="42dp"
-            android:layout_height="42dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:contentDescription="@string/play" />
 
         <com.umerov.rlottie.RLottieImageView
             android:id="@+id/item_audio_visual"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_gravity="center" />
     </FrameLayout>
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/mini_artist"
+        style="@style/TextAppearance.MaterialComponents.Body2"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_weight="1"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/mini_artist"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:ellipsize="marquee"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:scrollHorizontally="true"
-            android:singleLine="true" />
-
-        <SeekBar
-            android:id="@+id/SeekBar01"
-            style="@android:style/Widget.Material.SeekBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:max="1000"
-            android:paddingTop="2dp"
-            android:paddingBottom="2dp" />
-    </LinearLayout>
-
-    <ImageButton
-        android:id="@+id/open_player"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:backgroundTint="?colorSurface"
-        android:contentDescription="@string/open_full_player"
-        android:padding="8dp"
-        android:scaleType="centerInside"
-        android:src="@drawable/ic_outline_keyboard_arrow_up"
-        app:tint="?colorPrimary" />
+        android:background="@drawable/rounded_ripple"
+        android:gravity="center"
+        android:paddingStart="2dp"
+        android:paddingEnd="2dp"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:scrollHorizontally="true"
+        android:singleLine="true" />
 
     <ImageButton
         android:id="@+id/close_player"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
         android:layout_gravity="center_vertical"
-        android:layout_marginEnd="4dp"
+        android:layout_marginEnd="8dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:backgroundTint="?colorSurface"
         android:contentDescription="@string/close"
-        android:padding="8dp"
         android:scaleType="centerInside"
-        android:src="@drawable/ic_outline_keyboard_arrow_down"
+        android:src="@drawable/ic_outline_fast_forward_24"
         app:tint="?colorPrimary" />
 </LinearLayout>

@@ -25,20 +25,6 @@ class UISettings implements ISettings.IUISettings {
     }
 
     @Override
-    public int getAvatarStyle() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(app);
-        return preferences.getInt(PreferencesFragment.KEY_AVATAR_STYLE, AvatarStyle.CIRCLE);
-    }
-
-    @Override
-    public void storeAvatarStyle(@AvatarStyle int style) {
-        PreferenceManager.getDefaultSharedPreferences(app)
-                .edit()
-                .putInt(PreferencesFragment.KEY_AVATAR_STYLE, style)
-                .apply();
-    }
-
-    @Override
     public String getMainThemeKey() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(app);
         return preferences.getString("app_theme", "ice");

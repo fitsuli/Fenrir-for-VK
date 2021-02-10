@@ -720,7 +720,6 @@
     <string name="editing">Editing</string>
     <string name="ready">Succes</string>
     <string name="add_document_to_yourself_commit">Add to your documents?</string>
-    <string name="avatar_style_title">Avatar style</string>
 
     <string name="save_changes_question">Save changes ?</string>
     <string name="developer">Developers:</string>
@@ -1338,7 +1337,7 @@
     <string name="settings_keep_longpoll_title">Keep Longpoll</string>
     <string name="settings_no_push">Do not accept Push FCM notifications</string>
     <string name="settings_keep_longpoll_summary">Keep in touch with the notification service. May lead to increased power consumption!</string>
-    <string name="close">Closed</string>
+    <string name="close">Close</string>
     <string name="attach">Attach</string>
     <string name="emoji" translatable="false">Emoij</string>
 
@@ -1472,7 +1471,6 @@
     <string name="read_article">Read</string>
     <string name="copy_simple">Copy</string>
     <string name="webview_night_mode">Turn on night mode WebView</string>
-    <string name="snow_mode">Snow simulation</string>
     <string name="webview_summary">Color pages depending on the topic</string>
     <string name="be_online">Stay online</string>
     <string name="wall_attachments">Wall attachments</string>
@@ -1525,7 +1523,6 @@
     <string name="link_processing">Link is verified</string>
     <string name="blacklisted">You are blacklisted !!!</string>
     <string name="additional_info">Additional Information</string>
-    <string name="mini_player_audio_round_icon">Round Covers in Mini Player</string>
     <string name="select_audio">Audio selection</string>
     <string name="stop_action">Stop</string>
     <string name="important">Important messages</string>

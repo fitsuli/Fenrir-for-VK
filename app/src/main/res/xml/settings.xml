@@ -207,12 +207,6 @@
             android:title="@string/webview_night_mode"
             app:iconSpaceReserved="false" />
 
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="snow_mode"
-            android:title="@string/snow_mode"
-            app:iconSpaceReserved="false" />
-
         <ListPreference
             android:defaultValue="0"
             android:entries="@array/array_font_size_names"
@@ -236,11 +230,6 @@
             android:title="@string/photo_rounded_view"
             app:iconSpaceReserved="false"
             app:useSimpleSummaryProvider="true" />
-
-        <Preference
-            android:key="avatar_style"
-            android:title="@string/avatar_style_title"
-            app:iconSpaceReserved="false" />
 
         <SwitchPreference
             android:defaultValue="true"

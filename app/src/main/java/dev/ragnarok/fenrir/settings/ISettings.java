@@ -278,8 +278,6 @@ public interface ISettings {
 
         boolean isWebview_night_mode();
 
-        boolean isSnow_mode();
-
         int getPhotoRoundMode();
 
         int getFontSize();
@@ -427,11 +425,6 @@ public interface ISettings {
         void switchNightMode(@NightMode int key);
 
         String getMainThemeKey();
-
-        @AvatarStyle
-        int getAvatarStyle();
-
-        void storeAvatarStyle(@AvatarStyle int style);
 
         boolean isDarkModeEnabled(Context context);
 

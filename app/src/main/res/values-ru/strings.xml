@@ -618,7 +618,6 @@
     <string name="editing">Редактирование</string>
     <string name="ready">Готово</string>
     <string name="add_document_to_yourself_commit">Добавить в свои документы ?</string>
-    <string name="avatar_style_title">Стиль аватарок</string>
 
     <string name="save_changes_question">Сохранить изменения ?</string>
     <string name="developer">Разработчики:</string>
@@ -1327,7 +1326,6 @@
     <string name="read_article">Читать</string>
     <string name="copy_simple">Скопировать</string>
     <string name="webview_night_mode">Включить ночной режим WebView</string>
-    <string name="snow_mode">Симуляция снега</string>
     <string name="webview_summary">Красить страницы в зависимости от темы</string>
     <string name="be_online">Быть онлайн</string>
     <string name="wall_attachments">Вложения на стене</string>
@@ -1380,7 +1378,6 @@
     <string name="link_processing">Ссылка проверяется</string>
     <string name="blacklisted">Вы в чёрном списке!!!</string>
     <string name="additional_info">Дополнительная информация</string>
-    <string name="mini_player_audio_round_icon">Круглые обложки в мини-плеере</string>
     <string name="select_audio">Выбор аудио</string>
     <string name="stop_action">Стоп</string>
     <string name="important">Важные сообщения</string>

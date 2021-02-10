@@ -14,7 +14,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -73,12 +72,9 @@ import dev.ragnarok.fenrir.listener.OnSectionResumeCallback;
 import dev.ragnarok.fenrir.model.LocalPhoto;
 import dev.ragnarok.fenrir.model.SwitchableCategory;
 import dev.ragnarok.fenrir.picasso.PicassoInstance;
-import dev.ragnarok.fenrir.picasso.transforms.EllipseTransformation;
-import dev.ragnarok.fenrir.picasso.transforms.RoundTransformation;
 import dev.ragnarok.fenrir.place.Place;
 import dev.ragnarok.fenrir.place.PlaceFactory;
 import dev.ragnarok.fenrir.service.KeepLongpollService;
-import dev.ragnarok.fenrir.settings.AvatarStyle;
 import dev.ragnarok.fenrir.settings.ISettings;
 import dev.ragnarok.fenrir.settings.NightMode;
 import dev.ragnarok.fenrir.settings.Settings;
@@ -93,7 +89,6 @@ import static dev.ragnarok.fenrir.util.Utils.isEmpty;
 public class PreferencesFragment extends PreferenceFragmentCompat {
 
     public static final String KEY_DEFAULT_CATEGORY = "default_category";
-    public static final String KEY_AVATAR_STYLE = "avatar_style";
     private static final String KEY_APP_THEME = "app_theme";
     private static final String KEY_NIGHT_SWITCH = "night_switch";
     private static final String KEY_NOTIFICATION = "notifications";
@@ -363,12 +358,6 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
             return true;
         });
 
-        SwitchPreference snow_mode = findPreference("snow_mode");
-        snow_mode.setOnPreferenceChangeListener((preference, newValue) -> {
-            requireActivity().recreate();
-            return true;
-        });
-
         ListPreference prefPhotoPreview = findPreference("photo_preview_size");
         prefPhotoPreview.setOnPreferenceChangeListener((preference, newValue) -> {
             Settings.get().main().notifyPrefPreviewSizeChanged();
@@ -405,14 +394,6 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
         if (drawerCategories != null) {
             drawerCategories.setOnPreferenceClickListener(preference -> {
                 PlaceFactory.getDrawerEditPlace().tryOpenWith(requireActivity());
-                return true;
-            });
-        }
-
-        Preference avatarStyle = findPreference(KEY_AVATAR_STYLE);
-        if (avatarStyle != null) {
-            avatarStyle.setOnPreferenceClickListener(preference -> {
-                showAvatarStyleDialog();
                 return true;
             });
         }
@@ -882,59 +863,8 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
         });
         new MaterialAlertDialogBuilder(requireActivity())
                 .setView(view)
-                .show();
-    }
-
-    private void resolveAvatarStyleViews(int style, ImageView circle, ImageView oval) {
-        switch (style) {
-            case AvatarStyle.CIRCLE:
-                circle.setVisibility(View.VISIBLE);
-                oval.setVisibility(View.INVISIBLE);
-                break;
-            case AvatarStyle.OVAL:
-                circle.setVisibility(View.INVISIBLE);
-                oval.setVisibility(View.VISIBLE);
-                break;
-        }
-    }
-
-    private void showAvatarStyleDialog() {
-        int current = Settings.get()
-                .ui()
-                .getAvatarStyle();
-
-        View view = View.inflate(requireActivity(), R.layout.dialog_avatar_style, null);
-        ImageView ivCircle = view.findViewById(R.id.circle_avatar);
-        ImageView ivOval = view.findViewById(R.id.oval_avatar);
-        ImageView ivCircleSelected = view.findViewById(R.id.circle_avatar_selected);
-        ImageView ivOvalSelected = view.findViewById(R.id.oval_avatar_selected);
-
-        ivCircle.setOnClickListener(v -> resolveAvatarStyleViews(AvatarStyle.CIRCLE, ivCircleSelected, ivOvalSelected));
-        ivOval.setOnClickListener(v -> resolveAvatarStyleViews(AvatarStyle.OVAL, ivCircleSelected, ivOvalSelected));
-
-        resolveAvatarStyleViews(current, ivCircleSelected, ivOvalSelected);
-
-        PicassoInstance.with()
-                .load(R.drawable.ava_settings)
-                .transform(new RoundTransformation())
-                .into(ivCircle);
-
-        PicassoInstance.with()
-                .load(R.drawable.ava_settings)
-                .transform(new EllipseTransformation())
-                .into(ivOval);
-
-        new MaterialAlertDialogBuilder(requireActivity())
-                .setTitle(R.string.avatar_style_title)
-                .setView(view)
-                .setPositiveButton(R.string.button_ok, (dialog, which) -> {
-                    boolean circle = ivCircleSelected.getVisibility() == View.VISIBLE;
-                    Settings.get()
-                            .ui()
-                            .storeAvatarStyle(circle ? AvatarStyle.CIRCLE : AvatarStyle.OVAL);
-                    requireActivity().recreate();
+                .setNegativeButton(R.string.close, (dialog, which) -> {
                 })
-                .setNegativeButton(R.string.button_cancel, null)
                 .show();
     }
 

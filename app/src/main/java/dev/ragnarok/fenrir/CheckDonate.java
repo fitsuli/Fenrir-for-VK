@@ -138,8 +138,9 @@ public class CheckDonate {
             new MaterialAlertDialogBuilder(context)
                     .setTitle(R.string.info)
                     .setIcon(R.drawable.client_round)
-                    .setCancelable(true)
                     .setView(view)
+                    .setPositiveButton(R.string.button_ok, (dialog, which) -> {
+                    })
                     .show();
             return false;
         }

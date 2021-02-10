@@ -3,15 +3,11 @@ package dev.ragnarok.fenrir.view;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.os.SystemClock;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -22,7 +18,6 @@ import androidx.core.content.res.ResourcesCompat;
 import com.squareup.picasso.Transformation;
 import com.umerov.rlottie.RLottieImageView;
 
-import java.lang.ref.WeakReference;
 import java.util.Objects;
 
 import dev.ragnarok.fenrir.R;
@@ -44,17 +39,14 @@ import static dev.ragnarok.fenrir.util.Utils.firstNonEmptyString;
 
 public class MiniPlayerView extends FrameLayout implements SeekBar.OnSeekBarChangeListener {
 
-    private static final int REFRESH_TIME = 1;
     private Disposable mPlayerDisposable = Disposable.disposed();
     private int mAccountId;
     private RLottieImageView visual;
     private ImageView play_cover;
     private TextView Title;
-    private SeekBar mProgress;
     private boolean mFromTouch;
     private long mPosOverride = -1;
-    private View lnt;
-    private TimeHandler mTimeHandler;
+    private View root;
     private long mLastSeekEventTime;
 
     public MiniPlayerView(Context context) {
@@ -73,18 +65,12 @@ public class MiniPlayerView extends FrameLayout implements SeekBar.OnSeekBarChan
     }
 
     protected void init() {
-        View root = LayoutInflater.from(getContext()).inflate(R.layout.mini_player, this);
+        root = LayoutInflater.from(getContext()).inflate(R.layout.mini_player, this);
         View play = root.findViewById(R.id.item_audio_play);
         play_cover = root.findViewById(R.id.item_audio_play_cover);
         visual = root.findViewById(R.id.item_audio_visual);
-        lnt = root.findViewById(R.id.miniplayer_layout);
-        lnt.setVisibility(MusicUtils.getMiniPlayerVisibility() ? View.VISIBLE : View.GONE);
-        ImageButton mPClosePlay = root.findViewById(R.id.close_player);
-        mPClosePlay.setOnClickListener(v -> {
-                    MusicUtils.closeMiniPlayer();
-                    lnt.setVisibility(View.GONE);
-                }
-        );
+        root.setVisibility(MusicUtils.getMiniPlayerVisibility() ? View.VISIBLE : View.GONE);
+        root.findViewById(R.id.close_player).setOnClickListener(v -> MusicUtils.next());
         play.setOnClickListener(v -> {
             MusicUtils.playOrPause();
             if (MusicUtils.isPlaying()) {
@@ -95,24 +81,9 @@ public class MiniPlayerView extends FrameLayout implements SeekBar.OnSeekBarChan
                 play_cover.clearColorFilter();
             }
         });
-        play.setOnLongClickListener(v -> {
-            MusicUtils.next();
-            return true;
-        });
-        ImageButton mOpenPlayer = root.findViewById(R.id.open_player);
-        mOpenPlayer.setOnClickListener(v -> PlaceFactory.getPlayerPlace(mAccountId).tryOpenWith(getContext()));
         Title = root.findViewById(R.id.mini_artist);
+        Title.setOnClickListener(v -> PlaceFactory.getPlayerPlace(mAccountId).tryOpenWith(getContext()));
         Title.setSelected(true);
-        mProgress = root.findViewById(R.id.SeekBar01);
-        mProgress.setOnSeekBarChangeListener(this);
-
-    }
-
-    private void queueNextRefresh(long delay) {
-        Message message = mTimeHandler.obtainMessage(REFRESH_TIME);
-
-        mTimeHandler.removeMessages(REFRESH_TIME);
-        mTimeHandler.sendMessageDelayed(message, delay);
     }
 
     private Transformation TransformCover() {
@@ -140,8 +111,6 @@ public class MiniPlayerView extends FrameLayout implements SeekBar.OnSeekBarChan
         updateVisibility();
         updateNowPlayingInfo();
         updatePlaybackControls();
-        resolveControlViews();
-
     }
 
     private void onServiceBindEvent(@MusicUtils.PlayerStatus int status) {
@@ -150,18 +119,15 @@ public class MiniPlayerView extends FrameLayout implements SeekBar.OnSeekBarChan
                 updateVisibility();
                 updateNowPlayingInfo();
                 updatePlaybackControls();
-                resolveControlViews();
                 break;
             case MusicUtils.PlayerStatus.UPDATE_PLAY_PAUSE:
                 updateVisibility();
                 updatePlaybackControls();
-                resolveControlViews();
                 break;
             case MusicUtils.PlayerStatus.SERVICE_KILLED:
                 updateVisibility();
                 updatePlaybackControls();
                 updateNowPlayingInfo();
-                resolveControlViews();
                 break;
             case MusicUtils.PlayerStatus.REPEATMODE_CHANGED:
             case MusicUtils.PlayerStatus.SHUFFLEMODE_CHANGED:
@@ -191,50 +157,7 @@ public class MiniPlayerView extends FrameLayout implements SeekBar.OnSeekBarChan
     }
 
     private void updateVisibility() {
-        lnt.setVisibility(MusicUtils.getMiniPlayerVisibility() ? View.VISIBLE : View.GONE);
-    }
-
-    private void resolveControlViews() {
-        if (mProgress == null) return;
-
-        boolean preparing = MusicUtils.isPreparing();
-        boolean initialized = MusicUtils.isInitialized();
-        mProgress.setEnabled(!preparing && initialized);
-        //mProgress.setIndeterminate(preparing);
-    }
-
-    private long refreshCurrentTime() {
-        if (!MusicUtils.isInitialized()) {
-            return 500;
-        }
-
-        try {
-            long pos = mPosOverride < 0 ? MusicUtils.position() : mPosOverride;
-            long duration = MusicUtils.duration();
-
-            if (pos >= 0 && duration > 0) {
-                int progress = (int) (1000 * pos / duration);
-
-                mProgress.setProgress(progress);
-
-                int bufferProgress = (int) ((float) MusicUtils.bufferPercent() * 10F);
-                mProgress.setSecondaryProgress(bufferProgress);
-
-                if (mFromTouch) {
-                    return 500;
-                } else if (!MusicUtils.isPlaying()) {
-                    return 500;
-                }
-            } else {
-                mProgress.setProgress(0);
-                return 500;
-            }
-
-            return 500;
-        } catch (Exception ignored) {
-        }
-
-        return 500;
+        root.setVisibility(MusicUtils.getMiniPlayerVisibility() ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -246,8 +169,6 @@ public class MiniPlayerView extends FrameLayout implements SeekBar.OnSeekBarChan
         long now = SystemClock.elapsedRealtime();
         if (now - mLastSeekEventTime > 250) {
             mLastSeekEventTime = now;
-
-            refreshCurrentTime();
 
             if (!mFromTouch) {
                 // refreshCurrentTime();
@@ -277,14 +198,10 @@ public class MiniPlayerView extends FrameLayout implements SeekBar.OnSeekBarChan
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         recvFullAudioInfo();
-        mTimeHandler = new TimeHandler(this);
 
         mAccountId = Settings.get()
                 .accounts()
                 .getCurrent();
-
-        long next = refreshCurrentTime();
-        queueNextRefresh(next);
         mPlayerDisposable = observeServiceBinding()
                 .compose(RxUtils.applyObservableIOToMainSchedulers())
                 .subscribe(this::onServiceBindEvent);
@@ -294,30 +211,5 @@ public class MiniPlayerView extends FrameLayout implements SeekBar.OnSeekBarChan
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         mPlayerDisposable.dispose();
-
-        mTimeHandler.removeMessages(REFRESH_TIME);
-    }
-
-    private static final class TimeHandler extends Handler {
-
-        private final WeakReference<MiniPlayerView> mAudioPlayer;
-
-        /**
-         * Constructor of <code>TimeHandler</code>
-         */
-        TimeHandler(MiniPlayerView player) {
-            super(Looper.getMainLooper());
-            mAudioPlayer = new WeakReference<>(player);
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            if (msg.what == REFRESH_TIME) {
-                if (mAudioPlayer.get() == null)
-                    return;
-                long next = mAudioPlayer.get().refreshCurrentTime();
-                mAudioPlayer.get().queueNextRefresh(next);
-            }
-        }
     }
 }
