@@ -23,7 +23,6 @@ import java.util.Objects;
 import dev.ragnarok.fenrir.R;
 import dev.ragnarok.fenrir.model.Audio;
 import dev.ragnarok.fenrir.picasso.PicassoInstance;
-import dev.ragnarok.fenrir.picasso.transforms.PolyTransformation;
 import dev.ragnarok.fenrir.picasso.transforms.RoundTransformation;
 import dev.ragnarok.fenrir.place.PlaceFactory;
 import dev.ragnarok.fenrir.player.util.MusicUtils;
@@ -81,18 +80,22 @@ public class MiniPlayerView extends FrameLayout implements SeekBar.OnSeekBarChan
                 play_cover.clearColorFilter();
             }
         });
+        play.setOnLongClickListener(v -> {
+            MusicUtils.stop();
+            return true;
+        });
         Title = root.findViewById(R.id.mini_artist);
         Title.setOnClickListener(v -> PlaceFactory.getPlayerPlace(mAccountId).tryOpenWith(getContext()));
         Title.setSelected(true);
     }
 
     private Transformation TransformCover() {
-        return Settings.get().main().isAudio_round_icon() ? new RoundTransformation() : new PolyTransformation();
+        return new RoundTransformation();
     }
 
     @DrawableRes
     private int getAudioCoverSimple() {
-        return Settings.get().main().isAudio_round_icon() ? R.drawable.audio_button : R.drawable.audio_button_material;
+        return R.drawable.audio_button;
     }
 
     private void updatePlaybackControls() {

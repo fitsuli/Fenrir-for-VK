@@ -38,11 +38,6 @@ class MainSettings implements ISettings.IMainSettings {
     }
 
     @Override
-    public boolean isAudio_round_icon() {
-        return getDefaultPreferences().getBoolean("audio_round_icon", true);
-    }
-
-    @Override
     public boolean isUse_long_click_download() {
         return getDefaultPreferences().getBoolean("use_long_click_download", false);
     }

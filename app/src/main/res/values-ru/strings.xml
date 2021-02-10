@@ -1282,7 +1282,6 @@
     <string name="use_old_vk_api">Аудио с VK API 5.90</string>
     <string name="expires">%1$s %2$s</string>
     <string name="disable_history">Не показывать Истории</string>
-    <string name="audio_round_icon">Круглые обложки аудио</string>
     <string name="custom_chat_color">Первый цвет фона</string>
     <string name="use_custom_chat_color">Задать цвет фона</string>
     <string name="custom_chat_color_second">Второй цвет фона</string>

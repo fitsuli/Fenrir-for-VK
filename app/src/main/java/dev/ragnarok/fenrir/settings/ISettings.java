@@ -247,8 +247,6 @@ public interface ISettings {
 
         boolean isAmoledTheme();
 
-        boolean isAudio_round_icon();
-
         boolean isUse_long_click_download();
 
         boolean isShow_bot_keyboard();
