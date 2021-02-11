@@ -40,7 +40,7 @@ import dev.ragnarok.fenrir.modalbottomsheetdialogfragment.OptionRequest;
 import dev.ragnarok.fenrir.model.Audio;
 import dev.ragnarok.fenrir.model.menu.AudioItem;
 import dev.ragnarok.fenrir.picasso.PicassoInstance;
-import dev.ragnarok.fenrir.picasso.transforms.RoundTransformation;
+import dev.ragnarok.fenrir.picasso.transforms.PolyTransformation;
 import dev.ragnarok.fenrir.place.PlaceFactory;
 import dev.ragnarok.fenrir.player.util.MusicUtils;
 import dev.ragnarok.fenrir.settings.CurrentTheme;
@@ -110,11 +110,11 @@ public class AudioLocalRecyclerAdapter extends RecyclerView.Adapter<AudioLocalRe
 
     @DrawableRes
     private int getAudioCoverSimple() {
-        return R.drawable.audio_button;
+        return R.drawable.audio_button_material;
     }
 
     private Transformation TransformCover() {
-        return new RoundTransformation();
+        return new PolyTransformation();
     }
 
     private void updateAudioStatus(AudioHolder holder, Audio audio) {

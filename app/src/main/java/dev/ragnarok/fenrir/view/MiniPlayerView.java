@@ -23,7 +23,7 @@ import java.util.Objects;
 import dev.ragnarok.fenrir.R;
 import dev.ragnarok.fenrir.model.Audio;
 import dev.ragnarok.fenrir.picasso.PicassoInstance;
-import dev.ragnarok.fenrir.picasso.transforms.RoundTransformation;
+import dev.ragnarok.fenrir.picasso.transforms.PolyTransformation;
 import dev.ragnarok.fenrir.place.PlaceFactory;
 import dev.ragnarok.fenrir.player.util.MusicUtils;
 import dev.ragnarok.fenrir.settings.Settings;
@@ -90,12 +90,12 @@ public class MiniPlayerView extends FrameLayout implements SeekBar.OnSeekBarChan
     }
 
     private Transformation TransformCover() {
-        return new RoundTransformation();
+        return new PolyTransformation();
     }
 
     @DrawableRes
     private int getAudioCoverSimple() {
-        return R.drawable.audio_button;
+        return R.drawable.audio_button_material;
     }
 
     private void updatePlaybackControls() {

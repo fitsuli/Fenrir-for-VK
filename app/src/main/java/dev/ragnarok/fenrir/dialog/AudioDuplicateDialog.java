@@ -40,7 +40,7 @@ import dev.ragnarok.fenrir.mvp.presenter.AudioDuplicatePresenter;
 import dev.ragnarok.fenrir.mvp.view.IAudioDuplicateView;
 import dev.ragnarok.fenrir.picasso.Content_Local;
 import dev.ragnarok.fenrir.picasso.PicassoInstance;
-import dev.ragnarok.fenrir.picasso.transforms.RoundTransformation;
+import dev.ragnarok.fenrir.picasso.transforms.PolyTransformation;
 import dev.ragnarok.fenrir.player.MusicPlaybackService;
 import dev.ragnarok.fenrir.player.util.MusicUtils;
 import dev.ragnarok.fenrir.settings.Settings;
@@ -164,12 +164,12 @@ public class AudioDuplicateDialog extends BaseMvpDialogFragment<AudioDuplicatePr
     }
 
     private Transformation TransformCover() {
-        return new RoundTransformation();
+        return new PolyTransformation();
     }
 
     @DrawableRes
     private int getAudioCoverSimple() {
-        return R.drawable.audio_button;
+        return R.drawable.audio_button_material;
     }
 
     private void bind(AudioHolder holder, Audio audio) {
