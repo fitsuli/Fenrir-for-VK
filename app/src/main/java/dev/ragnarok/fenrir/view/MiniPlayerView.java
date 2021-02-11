@@ -69,7 +69,12 @@ public class MiniPlayerView extends FrameLayout implements SeekBar.OnSeekBarChan
         play_cover = root.findViewById(R.id.item_audio_play_cover);
         visual = root.findViewById(R.id.item_audio_visual);
         root.setVisibility(MusicUtils.getMiniPlayerVisibility() ? View.VISIBLE : View.GONE);
-        root.findViewById(R.id.close_player).setOnClickListener(v -> MusicUtils.next());
+        ImageView close_button = root.findViewById(R.id.close_player);
+        close_button.setOnClickListener(v -> MusicUtils.next());
+        close_button.setOnLongClickListener(v -> {
+            MusicUtils.previous(getContext());
+            return true;
+        });
         play.setOnClickListener(v -> {
             MusicUtils.playOrPause();
             if (MusicUtils.isPlaying()) {

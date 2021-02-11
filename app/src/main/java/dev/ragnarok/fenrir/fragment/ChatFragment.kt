@@ -168,10 +168,12 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPresenter, IChatView>(), IChatV
         root.background = CurrentTheme.getChatBackground(activity)
 
         toolbar = root.findViewById(R.id.toolbar)
-        toolbar?.inflateMenu(R.menu.menu_chat)
-        PrepareOptionsMenu(toolbar?.menu!!)
-        toolbar!!.setOnMenuItemClickListener { item: MenuItem ->
-            OptionsItemSelected(item)
+        toolbar?.let {
+            it.inflateMenu(R.menu.menu_chat)
+            PrepareOptionsMenu(it.menu!!)
+            it.setOnMenuItemClickListener { item: MenuItem ->
+                OptionsItemSelected(item)
+            }
         }
 
         stickersKeywordsView = root.findViewById(R.id.stickers)
@@ -179,7 +181,7 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPresenter, IChatView>(), IChatV
         stickersAdapter?.setStickerClickedListener { presenter?.fireStickerSendClick(it); presenter?.resetDraftMessage() }
         stickersKeywordsView?.let {
             it.layoutManager =
-                LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
+                    LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
             it.adapter = stickersAdapter
             it.isVisible = false
         }
@@ -1206,15 +1208,31 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPresenter, IChatView>(), IChatV
                     Avatar?.setOnClickListener {
                         showUserWall(Settings.get().accounts().current, peerId)
                     }
-                    Avatar?.setOnLongClickListener {
-                        presenter?.fireLongAvatarClick(peerId)
-                        true
+                    Title?.setOnClickListener {
+                        showUserWall(Settings.get().accounts().current, peerId)
+                    }
+                    SubTitle?.setOnClickListener {
+                        showUserWall(Settings.get().accounts().current, peerId)
                     }
                 } else {
                     Avatar?.setOnClickListener {
-                        presenter?.fireShowChatMembers()
+                        presenter?.fireChatMembersClick()
+                    }
+                    Title?.setOnClickListener {
+                        presenter?.fireChatMembersClick()
+                    }
+                    SubTitle?.setOnClickListener {
+                        presenter?.fireChatMembersClick()
                     }
                     Avatar?.setOnLongClickListener {
+                        AppendMessageText("@all,")
+                        true
+                    }
+                    Title?.setOnLongClickListener {
+                        AppendMessageText("@all,")
+                        true
+                    }
+                    SubTitle?.setOnLongClickListener {
                         AppendMessageText("@all,")
                         true
                     }

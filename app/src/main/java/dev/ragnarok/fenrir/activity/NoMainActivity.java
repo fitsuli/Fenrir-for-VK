@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.IdRes;
 import androidx.annotation.Nullable;
@@ -97,6 +98,17 @@ public abstract class NoMainActivity extends AppCompatActivity {
             super.onBackPressed();
         } else {
             supportFinishAfterTransition();
+        }
+    }
+
+    public void keyboardHide() {
+        try {
+            InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (inputManager != null) {
+                inputManager.hideSoftInputFromWindow(getWindow().getDecorView().getRootView().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        } catch (Exception ignored) {
+
         }
     }
 

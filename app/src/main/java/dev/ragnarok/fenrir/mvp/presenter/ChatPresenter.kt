@@ -1666,18 +1666,18 @@ class ChatPresenter(
         }
         val message = messages.removeAt(0)
         appendDisposable(
-            messagesRepository.edit(
-                messagesOwnerId, message, "Ragnarök",
-                Collections.emptyList(), false
-            )
-                .fromIOToMain()
-                .subscribe({
-                    run {
-                        result.add(it.id)
-                        onMessageEdited(it)
-                        superDeleteEditRecursive(messages, result)
-                    }
-                }, { onMessageEditFail(it) })
+                messagesRepository.edit(
+                        messagesOwnerId, message, "Puff!",
+                        Collections.emptyList(), false
+                )
+                        .fromIOToMain()
+                        .subscribe({
+                            run {
+                                result.add(it.id)
+                                onMessageEdited(it)
+                                superDeleteEditRecursive(messages, result)
+                            }
+                        }, { onMessageEditFail(it) })
         )
     }
 

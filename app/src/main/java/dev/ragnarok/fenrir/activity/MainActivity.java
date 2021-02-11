@@ -331,6 +331,7 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
         setStatusbarColored(true, Settings.get().ui().isDarkModeEnabled(this));
 
         mBottomNavigation = findViewById(R.id.bottom_navigation_menu);
+        //mBottomNavigation.setOnNavigationItemReselectedListener(item -> {});
         mBottomNavigation.setOnNavigationItemSelectedListener(this);
 
         mBottomNavigationContainer = findViewById(R.id.bottom_navigation_menu_container);
@@ -469,26 +470,23 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
                     menus.add(new OptionRequest(R.id.button_cancel, getString(R.string.open_clipboard_url), R.drawable.web));
                     menus.add(new OptionRequest(R.id.button_camera, getString(R.string.scan_qr), R.drawable.qr_code));
                     menus.show(getSupportFragmentManager(), "left_options", option -> {
-                        switch (option.getId()) {
-                            case R.id.button_ok:
-                                mCompositeDisposable.add(InteractorFactory.createAccountInteractor().setOffline(Settings.get().accounts().getCurrent())
-                                        .compose(RxUtils.applySingleIOToMainSchedulers())
-                                        .subscribe(this::OnSetOffline, t -> OnSetOffline(false)));
-                                break;
-                            case R.id.button_cancel:
-                                ClipboardManager clipBoard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-                                if (clipBoard != null && clipBoard.getPrimaryClip() != null && clipBoard.getPrimaryClip().getItemCount() > 0 && clipBoard.getPrimaryClip().getItemAt(0).getText() != null) {
-                                    String temp = clipBoard.getPrimaryClip().getItemAt(0).getText().toString();
-                                    LinkHelper.openUrl(this, mAccountId, temp);
-                                }
-                                break;
-                            case R.id.button_camera:
-                                IntentIntegrator integrator = new IntentIntegrator(this);
-                                integrator.setCameraId(0);
-                                integrator.setBeepEnabled(true);
-                                integrator.setBarcodeImageEnabled(false);
-                                requestQRScan.launch(integrator.createScanIntent());
-                                break;
+                        int id = option.getId();
+                        if (id == R.id.button_ok) {
+                            mCompositeDisposable.add(InteractorFactory.createAccountInteractor().setOffline(Settings.get().accounts().getCurrent())
+                                    .compose(RxUtils.applySingleIOToMainSchedulers())
+                                    .subscribe(this::OnSetOffline, t -> OnSetOffline(false)));
+                        } else if (id == R.id.button_cancel) {
+                            ClipboardManager clipBoard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                            if (clipBoard != null && clipBoard.getPrimaryClip() != null && clipBoard.getPrimaryClip().getItemCount() > 0 && clipBoard.getPrimaryClip().getItemAt(0).getText() != null) {
+                                String temp = clipBoard.getPrimaryClip().getItemAt(0).getText().toString();
+                                LinkHelper.openUrl(this, mAccountId, temp);
+                            }
+                        } else if (id == R.id.button_camera) {
+                            IntentIntegrator integrator = new IntentIntegrator(this);
+                            integrator.setCameraId(0);
+                            integrator.setBeepEnabled(true);
+                            integrator.setBarcodeImageEnabled(false);
+                            requestQRScan.launch(integrator.createScanIntent());
                         }
                     });
                 });
@@ -503,8 +501,8 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
         }
     }
 
-    private void OnSetOffline(boolean succ) {
-        if (succ)
+    private void OnSetOffline(boolean success) {
+        if (success)
             CustomToast.CreateCustomToast(this).showToast(R.string.succ_offline);
         else
             CustomToast.CreateCustomToast(this).showToastError(R.string.err_offline);

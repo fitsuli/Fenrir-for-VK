@@ -1,13 +1,11 @@
 package dev.ragnarok.fenrir.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.ColorInt;
 import androidx.fragment.app.Fragment;
@@ -92,17 +90,6 @@ public class NotReadMessagesActivity extends NoMainActivity implements PlaceProv
         if (ACTION_OPEN_PLACE.equals(action)) {
             Place place = intent.getParcelableExtra(Extra.PLACE);
             openPlace(place);
-        }
-    }
-
-    public void keyboardHide() {
-        try {
-            InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            if (inputManager != null) {
-                inputManager.hideSoftInputFromWindow(getWindow().getDecorView().getRootView().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-            }
-        } catch (Exception ignored) {
-
         }
     }
 

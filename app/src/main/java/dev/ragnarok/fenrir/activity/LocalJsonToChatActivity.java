@@ -1,13 +1,11 @@
 package dev.ragnarok.fenrir.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
@@ -56,16 +54,6 @@ public class LocalJsonToChatActivity extends NoMainActivity implements PlaceProv
         String action = intent.getAction();
         if (Intent.ACTION_VIEW.equals(action)) {
             attachInitialFragment(LocalJsonToChatFragment.newInstance(accountId));
-        }
-    }
-
-    public void keyboardHide() {
-        try {
-            InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            if (inputManager != null) {
-                inputManager.hideSoftInputFromWindow(getWindow().getDecorView().getRootView().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-            }
-        } catch (Exception ignored) {
         }
     }
 
