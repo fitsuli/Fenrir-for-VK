@@ -5,12 +5,24 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <TextView
+        style="@style/TextAppearance.MaterialComponents.Subtitle1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:drawablePadding="8dp"
+        android:padding="12dp"
+        android:text="@string/attach"
+        app:drawableStartCompat="@drawable/attachment"
+        app:drawableTint="?colorPrimary" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="150dp">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
+            android:overScrollMode="never"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
@@ -58,7 +70,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="12dp"
+            android:layout_margin="6dp"
+            android:padding="6dp"
             android:src="@drawable/photo_sizes"
             app:tint="?attr/colorSecondary" />
 
@@ -68,7 +81,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="12dp"
+            android:layout_margin="6dp"
+            android:padding="6dp"
             android:src="@drawable/ic_outline_camera"
             app:tint="?attr/colorOnSurface" />
 
@@ -78,7 +92,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="12dp"
+            android:layout_margin="6dp"
+            android:padding="6dp"
             android:src="@drawable/ic_outline_video_library"
             app:tint="?attr/colorOnSurface" />
 
@@ -88,7 +103,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="12dp"
+            android:layout_margin="6dp"
+            android:padding="6dp"
             android:src="@drawable/ic_outline_library_music"
             app:tint="?attr/colorOnSurface" />
 
@@ -98,7 +114,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="12dp"
+            android:layout_margin="6dp"
+            android:padding="6dp"
             android:src="@drawable/ic_outline_library_books"
             app:tint="?attr/colorOnSurface" />
 
@@ -107,7 +124,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="12dp"
+            android:layout_margin="6dp"
+            android:padding="6dp"
             android:src="@drawable/ic_arrow_down_vector"
             app:tint="?android:textColorPrimary" />
 
@@ -115,6 +133,7 @@
             android:id="@+id/button_send"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
             android:ellipsize="end"
             android:singleLine="true"
             android:text="@string/send_short" />

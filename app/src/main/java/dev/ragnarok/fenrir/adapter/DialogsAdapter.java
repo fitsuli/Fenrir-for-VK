@@ -422,7 +422,6 @@ public class DialogsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         final ImageView ivUnreadTicks;
         final OnlineView ivOnline;
         final TextView tvDate;
-        final View mDialogContentRoot;
         final TextView mHeaderTitle;
         final TextView EmptyAvatar;
 
@@ -439,7 +438,6 @@ public class DialogsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             tvDate = view.findViewById(R.id.item_chat_date);
             mHeaderTitle = view.findViewById(R.id.header_title);
             EmptyAvatar = view.findViewById(R.id.empty_avatar_text);
-            mDialogContentRoot = view.findViewById(R.id.dialog_content);
             blacklisted = itemView.findViewById(R.id.item_blacklisted);
             ivVerified = itemView.findViewById(R.id.item_verified);
         }

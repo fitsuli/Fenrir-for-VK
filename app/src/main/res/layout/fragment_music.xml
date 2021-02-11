@@ -24,6 +24,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scrollbarSize="3dp"
+                tools:itemCount="5"
+                tools:listitem="@layout/item_audio"
                 android:scrollbars="vertical" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

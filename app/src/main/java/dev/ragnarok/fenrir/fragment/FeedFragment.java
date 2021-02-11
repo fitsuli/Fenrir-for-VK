@@ -118,10 +118,7 @@ public class FeedFragment extends PlaceSupportMvpFragment<FeedPresenter, IFeedVi
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.refresh) {
-            getPresenter().fireRefresh();
-            return true;
-        } else if (item.getItemId() == R.id.action_create_list) {
+        if (item.getItemId() == R.id.action_create_list) {
             requestProfileSelect.launch(SelectProfilesActivity.startFaveSelection(requireActivity()));
             return true;
         }

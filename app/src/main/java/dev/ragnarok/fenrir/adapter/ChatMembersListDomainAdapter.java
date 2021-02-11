@@ -1,7 +1,5 @@
 package dev.ragnarok.fenrir.adapter;
 
-import android.animation.Animator;
-import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,7 +10,6 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.card.MaterialCardView;
 import com.squareup.picasso.Transformation;
 
 import org.jetbrains.annotations.NotNull;
@@ -30,7 +27,6 @@ import dev.ragnarok.fenrir.util.Objects;
 import dev.ragnarok.fenrir.util.Utils;
 import dev.ragnarok.fenrir.util.ViewUtils;
 import dev.ragnarok.fenrir.view.OnlineView;
-import dev.ragnarok.fenrir.view.WeakViewAnimatorAdapter;
 
 import static dev.ragnarok.fenrir.util.Utils.isEmpty;
 import static dev.ragnarok.fenrir.util.Utils.nonEmpty;
@@ -106,8 +102,7 @@ public class ChatMembersListDomainAdapter extends RecyclerView.Adapter<ChatMembe
         holder.itemView.setOnClickListener(view -> {
             if (Objects.nonNull(actionListener)) {
                 actionListener.onUserClick(item);
-                holder.startSomeAnimation();
-            }
+             }
         });
 
         View view = holder.itemView;
@@ -142,9 +137,6 @@ public class ChatMembersListDomainAdapter extends RecyclerView.Adapter<ChatMembe
         final ImageView ivAvatar;
         final TextView tvName;
         final TextView tvDomain;
-        final MaterialCardView selectionView;
-        final Animator.AnimatorListener animationAdapter;
-        ObjectAnimator animator;
 
         ViewHolder(View root) {
             super(root);
@@ -152,34 +144,7 @@ public class ChatMembersListDomainAdapter extends RecyclerView.Adapter<ChatMembe
             ivAvatar = root.findViewById(R.id.item_user_avatar);
             tvName = root.findViewById(R.id.item_user_name);
             tvDomain = root.findViewById(R.id.item_user_domain);
-            selectionView = root.findViewById(R.id.item_user_selection);
-
-            animationAdapter = new WeakViewAnimatorAdapter<View>(selectionView) {
-                @Override
-                public void onAnimationEnd(View view) {
-                    view.setVisibility(View.GONE);
-                }
-
-                @Override
-                public void onAnimationStart(View view) {
-                    view.setVisibility(View.VISIBLE);
-                }
-
-                @Override
-                protected void onAnimationCancel(View view) {
-                    view.setVisibility(View.GONE);
-                }
-            };
         }
 
-        void startSomeAnimation() {
-            selectionView.setCardBackgroundColor(CurrentTheme.getColorSecondary(selectionView.getContext()));
-            selectionView.setAlpha(0.5f);
-
-            animator = ObjectAnimator.ofFloat(selectionView, View.ALPHA, 0.0f);
-            animator.setDuration(500);
-            animator.addListener(animationAdapter);
-            animator.start();
-        }
     }
 }

@@ -235,7 +235,7 @@
     <string name="unknown_last_name">user</string>
 
     <string name="click_back_to_exit">Click again to exit</string>
-    <string name="show_more">Show in full</string>
+    <string name="show_more">Show more</string>
 
     <string name="counter_groups">groups</string>
     <string name="counter_friends">friends</string>
@@ -268,7 +268,7 @@
         <item>-1</item>
     </string-array>
 
-    <string name="select_image_size_summary">Medium recommended</string>
+    <string name="select_image_size_summary">Medium is recommended</string>
     <string name="select_image_size_title">Send image size</string>
     <string-array name="array_image_sizes_names">
         <item>Small (800 px)</item>
@@ -655,7 +655,7 @@
     <string name="button_access">Got it</string>
     <string name="button_no">No</string>
     <string name="button_cancel">Cancel</string>
-    <string name="button_super_delete">Super</string>
+    <string name="button_super_delete">Super del</string>
     <string name="field_is_required">Required field</string>
     <string name="attach_message">Attach message</string>
     <string name="enter_your_status">Enter your status</string>
@@ -699,7 +699,7 @@
     <string name="add_signature">Add author signature</string>
     <string name="edit_chat">Edit chat</string>
     <string name="change_chat_title">Edit title chat</string>
-    <string name="chat_users">Add author signature</string>
+    <string name="chat_users">Chat participants</string>
     <string name="invite_link">Invite Link</string>
     <string name="creator_of_conversation">Conversation creator</string>
     <string name="invited_by">Invited %1$s</string>
@@ -718,7 +718,7 @@
     <string name="share">Share</string>
     <string name="new_comment">New comment</string>
     <string name="editing">Editing</string>
-    <string name="ready">Succes</string>
+    <string name="ready">Success</string>
     <string name="add_document_to_yourself_commit">Add to your documents?</string>
 
     <string name="save_changes_question">Save changes ?</string>
@@ -1439,7 +1439,7 @@
     <string name="show_profile_in_additional_page">Show profile in popup menu</string>
     <string name="swipes_for_chats_mode">Swipes in chats</string>
     <string name="chat_users_count">%1$d participants</string>
-    <string name="display_writing">Send typing status</string>
+    <string name="display_writing">Show typing status</string>
     <string name="download_directory">Where to download</string>
     <string name="music_dir">Music</string>
     <string name="photo_dir">Photo</string>
@@ -1485,7 +1485,7 @@
     <string name="notif_sticker">Sticker</string>
     <string name="notif_voice">A voice message</string>
     <string name="developer_mode">Developer mode</string>
-    <string name="dont_write">Don\'t send writing status</string>
+    <string name="dont_write">Don\'t send typing status</string>
     <string name="over_ten_attach">Send more than 10 attachments</string>
     <string name="open_photo">Open photo</string>
     <string name="open_avatar">Open avatar</string>
@@ -1631,8 +1631,8 @@
     <string name="show_hidden_accounts">Show hidden accounts</string>
     <string name="set_device">Set Device</string>
     <string name="not_read">Not read</string>
-    <string name="not_read_show">Fast Unread</string>
-    <string name="not_read_show_summary">If Unread > 30</string>
+    <string name="not_read_show">Fast unreads</string>
+    <string name="not_read_show_summary">If unread message count is more than 30</string>
     <string name="rotate_video">Rotate</string>
     <string name="popup">Popup</string>
     <string name="not_read_count">Not read: %1$d</string>
@@ -1645,5 +1645,5 @@
     <string name="show_donate_anim">Show donate animation</string>
     <string name="discography">Discography</string>
     <string name="update_time">Set current time</string>
-    <string name="max_bitmap_resolution">Max bitmap Resolution</string>
+    <string name="max_bitmap_resolution">Max bitmap resolution</string>
 </resources>

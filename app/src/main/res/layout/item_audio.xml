@@ -6,10 +6,10 @@
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/item_audio_margin_start"
     android:layout_marginEnd="@dimen/item_audio_margin_end"
-    android:paddingStart="6dp"
-    android:paddingTop="4dp"
-    android:paddingEnd="6dp"
-    android:paddingBottom="4dp">
+    android:paddingStart="12dp"
+    android:paddingTop="6dp"
+    android:paddingEnd="12dp"
+    android:paddingBottom="6dp">
 
     <FrameLayout
         android:id="@+id/item_audio_play"

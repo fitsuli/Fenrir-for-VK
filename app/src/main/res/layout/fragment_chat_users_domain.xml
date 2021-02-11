@@ -3,37 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
-    <LinearLayout
+    <TextView
+        style="@style/TextAppearance.MaterialComponents.Subtitle1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_margin="4dp"
+        android:drawablePadding="8dp"
+        android:ellipsize="end"
         android:gravity="center_horizontal"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_margin="4dp"
-            android:alpha="0.9"
-            android:scaleType="centerCrop"
-            android:src="@drawable/account_circle"
-            app:tint="?colorPrimary" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="?attr/selectableItemBackground"
-            android:ellipsize="end"
-            android:padding="2dp"
-            android:singleLine="true"
-            android:text="@string/mention_user"
-            android:textSize="16sp" />
-    </LinearLayout>
+        android:padding="8dp"
+        android:singleLine="true"
+        android:text="@string/mention_user"
+        android:textSize="16sp"
+        app:drawableStartCompat="@drawable/account_circle"
+        app:drawableTint="?colorPrimary" />
 
     <dev.ragnarok.fenrir.view.MySearchView
         android:id="@+id/searchview"
@@ -47,14 +34,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include layout="@layout/line_divider" />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clipToPadding="false"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:overScrollMode="never"
+            android:paddingBottom="16dp"
+            tools:itemCount="3"
             android:paddingTop="8dp"
+            tools:listitem="@layout/item_chat_user_list_second"
             android:scrollbars="vertical" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
