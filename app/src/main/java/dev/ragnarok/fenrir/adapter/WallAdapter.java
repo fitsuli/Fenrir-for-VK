@@ -1,7 +1,9 @@
 package dev.ragnarok.fenrir.adapter;
 
 import android.content.Context;
+import android.os.Build;
 import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -128,6 +130,11 @@ public class WallAdapter extends RecyclerBindableAdapter<Post, RecyclerView.View
 
         String reduced = AppTextUtils.reduceStringForPost(post.getText());
         holder.tvText.setText(OwnerLinkSpanFactory.withSpans(reduced, true, false, mLinkActionAdapter));
+        if (post.hasText() && post.getText().length() < 50 && holder.tvText.getLineCount() < 10) {
+            holder.tvText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                holder.tvText.setTextAppearance(com.google.android.material.R.style.TextAppearance_MaterialComponents_Headline5);
+        }
 
         holder.tvShowMore.setVisibility(post.hasText() && post.getText().length() > 400 ? View.VISIBLE : View.GONE);
 

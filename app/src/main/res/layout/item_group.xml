@@ -39,7 +39,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:scrollbars="none"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
             android:textSize="@dimen/font_size_subtitle"
             tools:text="Программное обеспечение" />
 

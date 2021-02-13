@@ -160,7 +160,7 @@ public class FeedFragment extends PlaceSupportMvpFragment<FeedPresenter, IFeedVi
         FloatingActionButton Goto = root.findViewById(R.id.goto_button);
         Goto.setOnClickListener(v -> {
             mRecycleView.stopScroll();
-            mRecycleView.scrollToPosition(0);
+            mRecycleView.smoothScrollToPosition(0);
         });
         Goto.setOnLongClickListener(v -> {
             mRecycleView.stopScroll();

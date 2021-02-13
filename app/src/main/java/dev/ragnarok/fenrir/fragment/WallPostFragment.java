@@ -3,9 +3,11 @@ package dev.ragnarok.fenrir.fragment;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.method.LinkMovementMethod;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -369,6 +371,11 @@ public class WallPostFragment extends PlaceSupportMvpFragment<WallPostPresenter,
         });
 
         mText.setText(spannableText, TextView.BufferType.SPANNABLE);
+        if (post.hasText() && post.getText().length() < 50 && mText.getLineCount() < 10) {
+            mText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                mText.setTextAppearance(com.google.android.material.R.style.TextAppearance_MaterialComponents_Headline5);
+        }
 
         boolean displaySigner = post.getSignerId() > 0 && nonNull(post.getCreator());
         mSignerRootView.setVisibility(displaySigner ? View.VISIBLE : View.GONE);

@@ -1,7 +1,9 @@
 package dev.ragnarok.fenrir.adapter;
 
 import android.content.Context;
+import android.os.Build;
 import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.ContextMenu;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,6 +67,11 @@ public class FeedAdapter extends RecyclerBindableAdapter<News, FeedAdapter.PostH
                 }
             }
         }));
+        if (holder.tvText.length() > 0 && holder.tvText.length() < 50 && holder.tvText.getLineCount() < 10) {
+            holder.tvText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                holder.tvText.setTextAppearance(com.google.android.material.R.style.TextAppearance_MaterialComponents_Headline5);
+        }
 
         boolean force = false;
         if (TextUtils.isEmpty(item.getText())) {

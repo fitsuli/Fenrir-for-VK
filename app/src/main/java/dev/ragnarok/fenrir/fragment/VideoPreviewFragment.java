@@ -294,9 +294,10 @@ public class VideoPreviewFragment extends BaseMvpFragment<VideoPreviewPresenter,
 
         if (nonNull(mSubtitleText)) {
             Spannable subtitle = OwnerLinkSpanFactory.withSpans(video.getDescription(), true, false, ownerLinkAdapter);
-
-            mSubtitleText.setText(subtitle, TextView.BufferType.SPANNABLE);
-            mSubtitleText.setMovementMethod(LinkMovementMethod.getInstance());
+            if (subtitle != null && subtitle.length() > 0) {
+                mSubtitleText.setText(subtitle, TextView.BufferType.SPANNABLE);
+                mSubtitleText.setMovementMethod(LinkMovementMethod.getInstance());
+            } else mSubtitleText.setVisibility(View.GONE);
         }
 
         String imageUrl = video.getImage();
