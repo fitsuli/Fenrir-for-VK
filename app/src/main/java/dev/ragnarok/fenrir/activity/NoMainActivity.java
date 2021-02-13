@@ -75,7 +75,7 @@ public abstract class NoMainActivity extends AppCompatActivity {
 
         FragmentManager manager = getSupportFragmentManager();
         if (manager.getBackStackEntryCount() > 1) {
-            mToolbar.setNavigationIcon(R.drawable.arrow_left);
+            mToolbar.setNavigationIcon(R.drawable.ic_outline_arrow_back_24);
         } else {
             mToolbar.setNavigationIcon(R.drawable.close);
         }

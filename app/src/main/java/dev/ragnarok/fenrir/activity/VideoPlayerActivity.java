@@ -169,7 +169,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements SurfaceHol
         setSupportActionBar(toolbar);
 
         if (toolbar != null) {
-            toolbar.setNavigationIcon(R.drawable.arrow_left);
+            toolbar.setNavigationIcon(R.drawable.ic_outline_arrow_back_24);
             toolbar.setNavigationOnClickListener(v -> finish());
         }
 

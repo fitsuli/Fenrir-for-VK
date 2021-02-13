@@ -328,11 +328,11 @@
     <string name="behaviour_settings">Behavior</string>
     <string name="music_settings">Player and music</string>
 
-    <string name="wall_post">Writing on the wall</string>
+    <string name="wall_post">Post on the wall</string>
 
-    <string name="wall_post_view">(WRITING ON THE WALL)</string>
+    <string name="wall_post_view">(POST ON THE WALL)</string>
 
-    <string name="repost_title">Sending writing</string>
+    <string name="repost_title">Sending post</string>
     <string name="repost_send_message">Send by private message</string>
     <string name="repost_to_wall">On wall</string>
     <string name="pin">Anchor</string>
@@ -348,8 +348,8 @@
 
     <string name="waiting_for_upload">Waiting for download</string>
 
-    <string name="deleted_post">Writing delete</string>
-    <string name="comment_was_deleted">Comment delete</string>
+    <string name="deleted_post">The post was deleted</string>
+    <string name="comment_was_deleted">The post was deleted</string>
 
     <string name="unknown_error">Unknown error</string>
 

@@ -793,27 +793,22 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
         }
 
         // Set the play and pause image
-        if (Objects.nonNull(mPlayPauseButton)) {
-            mPlayPauseButton!!.updateState()
-        }
+        mPlayPauseButton?.updateState()
 
         // Set the shuffle image
-        if (Objects.nonNull(mShuffleButton)) {
-            mShuffleButton!!.updateShuffleState()
-        }
+        mShuffleButton?.updateShuffleState()
 
         // Set the repeat image
-        if (Objects.nonNull(mRepeatButton)) {
-            mRepeatButton!!.updateRepeatState()
-        }
+        mRepeatButton?.updateRepeatState()
     }
 
     private fun startEffectsPanel() {
         try {
-            val effects = Intent(AudioEffect.ACTION_DISPLAY_AUDIO_EFFECT_CONTROL_PANEL)
-            effects.putExtra(AudioEffect.EXTRA_PACKAGE_NAME, requireActivity().packageName)
-            effects.putExtra(AudioEffect.EXTRA_AUDIO_SESSION, MusicUtils.getAudioSessionId())
-            effects.putExtra(AudioEffect.EXTRA_CONTENT_TYPE, AudioEffect.CONTENT_TYPE_MUSIC)
+            val effects = Intent(AudioEffect.ACTION_DISPLAY_AUDIO_EFFECT_CONTROL_PANEL).apply {
+                putExtra(AudioEffect.EXTRA_PACKAGE_NAME, requireActivity().packageName)
+                putExtra(AudioEffect.EXTRA_AUDIO_SESSION, MusicUtils.getAudioSessionId())
+                putExtra(AudioEffect.EXTRA_CONTENT_TYPE, AudioEffect.CONTENT_TYPE_MUSIC)
+            }
             requestEqualizer.launch(effects)
         } catch (ignored: ActivityNotFoundException) {
             view?.let {

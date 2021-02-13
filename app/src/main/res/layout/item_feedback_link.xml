@@ -52,6 +52,6 @@
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_marginStart="8dp"
-        android:src="@drawable/arrow_right_bold" />
+        android:src="@drawable/ic_baseline_arrow_right_24" />
 
 </RelativeLayout>

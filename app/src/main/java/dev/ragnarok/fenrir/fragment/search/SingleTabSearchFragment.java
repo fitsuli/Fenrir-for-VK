@@ -78,7 +78,7 @@ public class SingleTabSearchFragment extends Fragment implements MySearchView.On
         int count = requireActivity().getSupportFragmentManager().getBackStackEntryCount();
         if (searchView != null) {
             Drawable tr = AppCompatResources.getDrawable(requireActivity(), count == 1 && requireActivity() instanceof AppStyleable ?
-                    R.drawable.magnify : R.drawable.arrow_left);
+                    R.drawable.magnify : R.drawable.ic_outline_arrow_back_24);
             Utils.setColorFilter(tr, CurrentTheme.getColorPrimary(requireActivity()));
             searchView.setLeftIcon(tr);
         }

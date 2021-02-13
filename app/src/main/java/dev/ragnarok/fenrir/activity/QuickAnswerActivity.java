@@ -98,7 +98,7 @@ public class QuickAnswerActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         if (toolbar != null) {
-            toolbar.setNavigationIcon(R.drawable.arrow_left);
+            toolbar.setNavigationIcon(R.drawable.ic_outline_arrow_back_24);
         }
 
         setSupportActionBar(toolbar);

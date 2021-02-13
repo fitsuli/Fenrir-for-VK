@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/mpm_popup_menu_item_icon_margin_end"
         android:visibility="gone"
-        app:srcCompat="@drawable/arrow_right_bold"
+        app:srcCompat="@drawable/ic_baseline_arrow_right_24"
         app:tint="?colorPrimary"
         tools:visibility="visible" />
 

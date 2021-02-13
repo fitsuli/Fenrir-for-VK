@@ -33,6 +33,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.yalantis.ucrop.UCrop
 import dev.ragnarok.fenrir.*
+import dev.ragnarok.fenrir.Extensions.Companion.nullOrEmpty
 import dev.ragnarok.fenrir.activity.*
 import dev.ragnarok.fenrir.adapter.AttachmentsBottomSheetAdapter
 import dev.ragnarok.fenrir.adapter.AttachmentsViewBinder
@@ -1194,7 +1195,7 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPresenter, IChatView>(), IChatV
 
     private fun resolveToolbarNavigationIcon() {
         if (Objects.isNull(toolbar)) return
-        val tr = AppCompatResources.getDrawable(requireActivity(), R.drawable.arrow_left)
+        val tr = AppCompatResources.getDrawable(requireActivity(), R.drawable.ic_outline_arrow_back_24)
         Utils.setColorFilter(tr, CurrentTheme.getColorPrimary(requireActivity()))
         toolbar!!.navigationIcon = tr
         toolbar!!.setNavigationOnClickListener { requireActivity().onBackPressed() }

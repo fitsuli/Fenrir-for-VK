@@ -203,13 +203,11 @@ public class DialogsFragment extends BaseMvpFragment<DialogsPresenter, IDialogsV
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_search:
-                getPresenter().fireSearchClick();
-                break;
-            case R.id.action_star:
-                getPresenter().fireImportantClick();
-                break;
+        int itemId = item.getItemId();
+        if (itemId == R.id.action_search) {
+            getPresenter().fireSearchClick();
+        } else if (itemId == R.id.action_star) {
+            getPresenter().fireImportantClick();
         }
         return true;
     }

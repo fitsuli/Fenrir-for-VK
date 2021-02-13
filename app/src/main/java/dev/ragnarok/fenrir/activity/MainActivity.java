@@ -458,7 +458,7 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
 
         FragmentManager manager = getSupportFragmentManager();
         if (manager.getBackStackEntryCount() > 1) {
-            mToolbar.setNavigationIcon(R.drawable.arrow_left);
+            mToolbar.setNavigationIcon(R.drawable.ic_outline_arrow_back_24);
             mToolbar.setNavigationOnClickListener(v -> onBackPressed());
         } else {
             if (!isFragmentWithoutNavigation()) {
@@ -491,7 +491,7 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
                     });
                 });
             } else {
-                mToolbar.setNavigationIcon(R.drawable.arrow_left);
+                mToolbar.setNavigationIcon(R.drawable.ic_outline_arrow_back_24);
                 if (getMainActivityTransform() != MainActivityTransforms.SWIPEBLE) {
                     mToolbar.setNavigationOnClickListener(v -> openNavigationPage(AdditionalNavigationFragment.SECTION_ITEM_FEED));
                 } else {
